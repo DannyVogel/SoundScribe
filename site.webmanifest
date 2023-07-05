@@ -1,0 +1,10 @@
+{
+    "name": "SoundScribe",
+    "short_name": "SoundScribe",
+    "icons":
+        [
+            {"src":"/headphones.png","sizes":"192x192","type":"image/png"},
+            {"src":"/headphones.png","sizes":"512x512","type":"image/png"}
+        ],
+    "display": "standalone"
+}
