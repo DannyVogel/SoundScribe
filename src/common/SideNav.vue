@@ -66,7 +66,7 @@ const logOut = async () => {
 </script>
 
 <template>
-  <button v-if="!isSideNavShown" @click="isSideNavShown = true">
+  <button @click="isSideNavShown = true">
     <i class="fa-solid fa-bars text-white"></i>
   </button>
   <div
