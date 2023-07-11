@@ -1,12 +1,11 @@
 <script setup lang="ts"></script>
 
 <template>
-  <div class="w-screen h-screen grid grid-rows-layout">
+  <div class="relative w-screen h-screen max-h-screen grid grid-rows-layout">
     <slot name="header" />
-    <div class="bg-blue-400 overflow-y-hidden">
+    <div class="max-h-full bg-gray-800 overflow-hidden">
       <slot name="main" />
     </div>
-    <slot name="footer" />
   </div>
 </template>
 
