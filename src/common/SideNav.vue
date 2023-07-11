@@ -70,7 +70,7 @@ const logOut = async () => {
     <i class="fa-solid fa-bars text-white"></i>
   </button>
   <div
-    class="w-64 h-full p-3 fixed top-0 right-0 bg-blue-800 opacity-95 translate-x-0 transition-transform ease-in-out duration-300 flex flex-col justify-start"
+    class="w-64 h-full p-3 fixed top-0 right-0 bg-gray-900 shadow-md shadow-gray-700 translate-x-0 transition-transform ease-in-out duration-300 flex flex-col justify-start"
     :class="!isSideNavShown && 'translate-x-full'"
   >
     <button @click="isSideNavShown = false" class="h-12 flex justify-center">
@@ -86,7 +86,7 @@ const logOut = async () => {
         v-if="authStore.accountType === 'Scribe'"
         @click="isSideNavShown = false"
         :to="`/soundboard/${authStore.userName}`"
-        class="w-full h-8 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
+        class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
         <p>🎶 Visit SoundBoard</p>
       </RouterLink>
@@ -94,14 +94,14 @@ const logOut = async () => {
         v-if="authStore.accountType === 'Scribe'"
         @click="isSideNavShown = false"
         :to="{ name: 'postNote' }"
-        class="w-full h-8 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
+        class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
         <i class="fa-regular fa-pen-to-square"></i>
-        <p>Post New Note</p>
+        <p>Compose Note</p>
       </RouterLink>
       <button
         @click="logOut"
-        class="w-full h-8 mt-auto mb-10 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-base"
+        class="w-full h-8 mt-auto mb-4 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base"
         :class="isLoggingOut && 'animate-pulse'"
         :disabled="isLoggingOut"
       >
@@ -134,7 +134,7 @@ const logOut = async () => {
           />
           <p class="w-full text-center text-xs font-bold text-red-600">{{ errorMessage }}</p>
           <button
-            class="w-full h-8 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-base"
+            class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base"
             :class="isSigningIn && 'animate-pulse'"
             :disabled="isSigningIn"
           >
@@ -147,10 +147,21 @@ const logOut = async () => {
         <RouterLink
           :to="{ name: 'signup' }"
           @click.stop="isSideNavShown = false"
-          class="w-full h-8 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-base flex justify-center items-center"
+          class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center"
           >Sign up here</RouterLink
         >
       </div>
     </div>
+    <footer class="mt-auto w-full h-6 flex justify-between items-center">
+      <p class="text-white">&#169; 2023 SoundScribe</p>
+      <div class="flex gap-4">
+        <a href="https://github.com/DannyVogel" target="_blank"
+          ><i class="fa-brands fa-github text-white hover:scale-150 cursor-pointer"></i
+        ></a>
+        <a href="https://www.linkedin.com/in/danny-vogel/" target="_blank"
+          ><i class="fa-brands fa-linkedin-in text-white hover:scale-150 cursor-pointer"></i
+        ></a>
+      </div>
+    </footer>
   </div>
 </template>
