@@ -51,7 +51,7 @@ const router = createRouter({
       component: DiscoverView
     }
   ],
-  linkActiveClass: 'border-b-2 border-white'
+  linkActiveClass: 'border-b-2 border-orange-600'
 })
 
 export default router
