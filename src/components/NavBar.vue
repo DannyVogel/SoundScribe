@@ -13,7 +13,7 @@ const pages = [
 ]
 </script>
 <template>
-  <div class="flex justify-center gap-1 bg-blue-900 text-sm text-white">
+  <div class="flex justify-center gap-1 text-sm text-white">
     <nav v-for="(page, index) in pages" :key="index">
       <template v-if="!page.loggedIn || (page.loggedIn && authStore.isLoggedIn)">
         <RouterLink :to="page.to">{{ page.name }}</RouterLink>
