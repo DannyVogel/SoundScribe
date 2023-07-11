@@ -21,8 +21,5 @@ onMounted(() => {
     <template #main>
       <RouterView />
     </template>
-    <template #footer>
-      <AppFooter />
-    </template>
   </AppLayout>
 </template>
