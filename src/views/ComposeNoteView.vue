@@ -30,8 +30,8 @@ const postNote = () => {
 }
 </script>
 <template>
-  <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto">
-    <h1>Post Note</h1>
+  <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
+    <h1>Compose Note</h1>
     <form @submit.prevent="postNote" class="mt-4 sm:max-w-2xl flex flex-col justify-center">
       <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
         <legend>Your Note</legend>
@@ -48,11 +48,11 @@ const postNote = () => {
         <label htmlFor="songURL">Song Link:</label>
         <input v-model="post.songURL" type="text" name="songURL" id="songURL" />
         <button
-          class="w-full h-12 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-xl flex justify-center items-center mb-4"
+          class="w-full h-12 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-xl flex justify-center items-center mb-4"
           :class="isPosting && 'animate-pulse'"
           :disabled="isPosting"
         >
-          Post Note
+          Compose Note
         </button>
       </fieldset>
     </form>

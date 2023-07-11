@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import SignUpView from '@/views/SignUpView.vue'
-import PostNoteView from '@/views/PostNoteView.vue'
+import ComposeNoteView from '@/views/ComposeNoteView.vue'
 import SoundBoardView from '@/views/SoundBoardView.vue'
 import FeedView from '@/views/FeedView.vue'
 import DiscoverView from '@/views/DiscoverView.vue'
@@ -32,7 +32,7 @@ const router = createRouter({
     {
       path: '/post-note',
       name: 'postNote',
-      component: PostNoteView,
+      component: ComposeNoteView,
       beforeEnter: requireAuth
     },
     {
