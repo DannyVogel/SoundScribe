@@ -4,7 +4,7 @@ const authStore = useAuthStore()
 </script>
 
 <template>
-  <main class="h-full px-3 flex flex-col justify-center items-center gap-2 bg-blue-400">
+  <main class="h-full px-3 flex flex-col justify-center items-center gap-2 bg-gray-800">
     <h1 class="text-lg font-bold">Home</h1>
     <p>Logged in: {{ authStore.isLoggedIn || false }}</p>
     <p>User: {{ authStore.userName || 'N/A' }}</p>

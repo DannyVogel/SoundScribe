@@ -45,7 +45,7 @@ async function processSignUpFormData() {
 }
 </script>
 <template>
-  <div class="bg-blue-400 p-3 sm:pt-20 h-full">
+  <div class="bg-gray-800 p-3 sm:pt-20 h-full">
     <h1 class="text-center text-3xl font-bold">Join SoundScribe</h1>
     <form @submit.prevent="processSignUpFormData" class="mt-4 sm:max-w-lg sm:mx-auto">
       <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
@@ -120,7 +120,7 @@ async function processSignUpFormData() {
         </div>
         <p class="text-center text-red-600 font-bold">{{ errorMessage }}</p>
         <button
-          class="w-full h-12 rounded bg-blue-500 hover:bg-blue-600 cursor-pointer text-white text-xl flex justify-center items-center mb-4"
+          class="w-full h-12 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-xl flex justify-center items-center mb-4"
           :class="isSigningUp && 'animate-pulse'"
           :disabled="isSigningUp"
         >
