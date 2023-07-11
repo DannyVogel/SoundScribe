@@ -5,6 +5,7 @@ import { useAuthStore } from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 
+defineEmits(['close'])
 const authStore = useAuthStore()
 const router = useRouter()
 const toast = useToast()
@@ -66,14 +67,8 @@ const logOut = async () => {
 </script>
 
 <template>
-  <button @click="isSideNavShown = true">
-    <i class="fa-solid fa-bars text-white"></i>
-  </button>
-  <div
-    class="w-64 h-full p-3 fixed top-0 right-0 bg-gray-900 shadow-md shadow-gray-700 translate-x-0 transition-transform ease-in-out duration-300 flex flex-col justify-start"
-    :class="!isSideNavShown && 'translate-x-full'"
-  >
-    <button @click="isSideNavShown = false" class="h-12 flex justify-center">
+  <div>
+    <button @click="$emit('close')" class="h-12 flex justify-center">
       <i class="fa-solid fa-bars text-white"></i>
     </button>
 
@@ -86,7 +81,7 @@ const logOut = async () => {
         v-if="authStore.accountType === 'Scribe'"
         @click="isSideNavShown = false"
         :to="`/soundboard/${authStore.userName}`"
-        class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
+        class="w-full h-8 py-5 rounded bg-orange-500 hover:bg-orange-600 hover:border-b hover:border-b-white cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
         <p>🎶 Visit SoundBoard</p>
       </RouterLink>
@@ -94,7 +89,7 @@ const logOut = async () => {
         v-if="authStore.accountType === 'Scribe'"
         @click="isSideNavShown = false"
         :to="{ name: 'postNote' }"
-        class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center gap-2"
+        class="w-full h-8 py-5 rounded bg-orange-500 hover:bg-orange-600 hover:border-b hover:border-b-white cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
         <i class="fa-regular fa-pen-to-square"></i>
         <p>Compose Note</p>
