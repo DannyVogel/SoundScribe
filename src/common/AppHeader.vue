@@ -8,7 +8,7 @@ const router = useRouter()
 
 <template>
   <header
-    class="h-full p-2 flex justify-between items-center bg-blue-900 border-b-2 border-blue-300"
+    class="h-full p-2 flex justify-between items-center bg-gray-900 border-b-2 border-orange-600"
   >
     <h1
       @click="router.push('/')"
