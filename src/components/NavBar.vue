@@ -2,6 +2,7 @@
 import { useAuthStore } from '@/stores/authStore'
 
 const authStore = useAuthStore()
+// TODO: params user fails on sign up, works on sign in.
 </script>
 <template>
   <nav class="flex justify-center gap-1 text-sm text-white">
