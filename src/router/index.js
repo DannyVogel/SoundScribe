@@ -26,18 +26,18 @@ const router = createRouter({
     },
     {
       path: '/signup',
-      name: 'signup',
+      name: 'signUp',
       component: SignUpView
     },
     {
-      path: '/post-note',
-      name: 'postNote',
+      path: '/compose-note',
+      name: 'composeNote',
       component: ComposeNoteView,
       beforeEnter: requireAuth
     },
     {
-      path: '/soundboard/:userName',
-      name: 'soundboard',
+      path: '/soundboard/:user',
+      name: 'soundBoard',
       component: SoundBoardView
     },
     {
