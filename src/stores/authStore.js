@@ -27,8 +27,8 @@ export const useAuthStore = defineStore('auth', {
         if (user) {
           getDoc(doc(db, 'users', user.uid)).then((doc) => {
             if (doc.exists()) {
-              this.isLoggedIn = true
               this.userName = user.displayName
+              this.isLoggedIn = true
               this.userUID = user.uid
               this.accountType = doc.data().accountType
             }
@@ -55,6 +55,10 @@ export const useAuthStore = defineStore('auth', {
           userUID: user.uid,
           creationTimeStamp: serverTimestamp()
         })
+        this.userName = userName
+        this.isLoggedIn = true
+        this.userUID = user.uid
+        this.accountType = accountType
         return 'success'
       } catch (error) {
         if (error.code === 'auth/email-already-in-use') {
@@ -74,8 +78,8 @@ export const useAuthStore = defineStore('auth', {
         getDoc(doc(db, 'users', data.user.uid)).then((doc) => {
           if (doc.exists()) {
             this.isLoggedIn = true
-            this.userName = data.user.displayName
-            this.userUID = data.user.uid
+            this.userName = doc.data().userName
+            this.userUID = doc.data().userUID
             this.accountType = doc.data().accountType
           }
         })
