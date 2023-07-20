@@ -2,13 +2,12 @@
 import { useAuthStore } from '@/stores/authStore'
 
 const authStore = useAuthStore()
-// TODO: params user fails on sign up, works on sign in.
 </script>
 <template>
   <nav class="flex justify-center gap-1 text-sm text-white">
     <RouterLink to="/feed">Feed</RouterLink>
     <span>{{ ' | ' }}</span>
-    <div v-if="authStore.isLoggedIn">
+    <div v-if="authStore.userName">
       <RouterLink :to="{ name: 'soundBoard', params: { user: authStore.userName } }"
         >SoundBoard
       </RouterLink>
