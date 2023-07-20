@@ -67,7 +67,7 @@ const logOut = async () => {
 </script>
 
 <template>
-  <div>
+  <div class="z-50">
     <button @click="$emit('close')" class="h-12 flex justify-center">
       <i class="fa-solid fa-bars text-white"></i>
     </button>
@@ -88,7 +88,7 @@ const logOut = async () => {
       <RouterLink
         v-if="authStore.accountType === 'Scribe'"
         @click="isSideNavShown = false"
-        :to="{ name: 'postNote' }"
+        :to="{ name: 'composeNote' }"
         class="w-full h-8 py-5 rounded bg-orange-500 hover:bg-orange-600 hover:border-b hover:border-b-white cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
         <i class="fa-regular fa-pen-to-square"></i>
@@ -140,7 +140,7 @@ const logOut = async () => {
       <div class="flex flex-col gap-2 mt-4">
         <p class="text-white text-center">New user?</p>
         <RouterLink
-          :to="{ name: 'signup' }"
+          :to="{ name: 'signUp' }"
           @click.stop="isSideNavShown = false"
           class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center"
           >Sign up here</RouterLink
