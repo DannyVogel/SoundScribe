@@ -20,14 +20,13 @@ if (!authStore.isLoggedIn) {
 
 const uploadNote = async () => {
   isComposing.value = true
-  const res = await notesStore.uploadNote(
+  await notesStore.uploadNote(
     authStore.userName,
     note.value.title,
     note.value.content,
     note.value.songURL,
     authStore.userUID
   )
-  console.log(res)
   isComposing.value = false
 }
 onMounted(async () => {
