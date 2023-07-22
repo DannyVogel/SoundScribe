@@ -11,16 +11,6 @@ const posts = [
     songURL: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
     dateComposed: 'July 11 2023'
   }
-  // {
-  //   title: '2',
-  //   content: 'asdas',
-  //   songURL: 'adsdas'
-  // },
-  // {
-  //   title: '3',
-  //   content: 'asdas',
-  //   songURL: 'adsdas'
-  // }
 ]
 </script>
 <template>
