@@ -5,7 +5,7 @@ import ComposeNoteView from '@/views/ComposeNoteView.vue'
 import SoundBoardView from '@/views/SoundBoardView.vue'
 import FeedView from '@/views/FeedView.vue'
 import DiscoverView from '@/views/DiscoverView.vue'
-import { useAuthStore } from '@/stores/authStore'
+import useAuthStore from '@/stores/authStore'
 
 const requireAuth = (to, from, next) => {
   const authStore = useAuthStore()

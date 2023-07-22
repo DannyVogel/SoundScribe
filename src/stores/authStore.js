@@ -13,7 +13,7 @@ import {
   db
 } from '@/services/Firebase'
 
-export const useAuthStore = defineStore('auth', {
+const useAuthStore = defineStore('auth', {
   state: () => ({
     isLoggedIn: false,
     userName: '',
@@ -100,3 +100,5 @@ export const useAuthStore = defineStore('auth', {
     }
   }
 })
+
+export default useAuthStore

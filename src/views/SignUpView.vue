@@ -1,16 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { useAuthStore } from '@/stores/authStore'
-import {
-  auth,
-  createUserWithEmailAndPassword,
-  updateProfile,
-  db,
-  doc,
-  setDoc,
-  serverTimestamp
-} from '@/services/Firebase'
+import useAuthStore from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
 
 const authStore = useAuthStore()
