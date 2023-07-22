@@ -18,6 +18,8 @@ import {
   setDoc,
   deleteDoc,
   updateDoc,
+  orderBy,
+  query,
   serverTimestamp
 } from 'firebase/firestore'
 // TODO: Add SDKs for Firebase products that you want to use
@@ -54,5 +56,7 @@ export {
   setDoc,
   deleteDoc,
   updateDoc,
+  orderBy,
+  query,
   serverTimestamp
 }
