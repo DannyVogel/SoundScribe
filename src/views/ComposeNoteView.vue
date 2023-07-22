@@ -1,12 +1,11 @@
 <script setup>
-import { ref } from 'vue'
-import { useAuthStore } from '@/stores/authStore'
-import { collection, db, doc, addDoc, serverTimestamp } from '@/services/Firebase'
-import { v4 as uuidv4 } from 'uuid'
+import { onMounted, ref } from 'vue'
+import useAuthStore from '@/stores/authStore'
+import useNotesStore from '@/stores/notesStore'
 import { useRouter } from 'vue-router'
-import { getYouTubeEmbedUrl } from '@/utils'
 
 const authStore = useAuthStore()
+const notesStore = useNotesStore()
 const router = useRouter()
 const isComposing = ref(false)
 const note = ref({
@@ -19,25 +18,27 @@ if (!authStore.isLoggedIn) {
   router.push('/')
 }
 
-const postNote = async () => {
+const uploadNote = async () => {
   isComposing.value = true
-  const id = uuidv4()
-  const docData = {
-    id: id,
-    author: authStore.userName,
-    timeStamp: serverTimestamp(),
-    title: note.value.title,
-    content: note.value.content,
-    songURL: getYouTubeEmbedUrl(note.value.songURL)
-  }
-  await addDoc(collection(db, 'users', authStore.userUID, `userNotes`), docData)
+  const res = await notesStore.uploadNote(
+    authStore.userName,
+    note.value.title,
+    note.value.content,
+    note.value.songURL,
+    authStore.userUID
+  )
+  console.log(res)
   isComposing.value = false
 }
+onMounted(async () => {
+  await notesStore.getAllUserNotes(authStore.userUID)
+  console.log('userNotes', notesStore.userNotes.size)
+})
 </script>
 <template>
   <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
     <h1>Compose Note</h1>
-    <form @submit.prevent="postNote" class="mt-4 sm:max-w-2xl flex flex-col justify-center">
+    <form @submit.prevent="uploadNote" class="mt-4 sm:max-w-2xl flex flex-col justify-center">
       <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border text-black">
         <legend>Your Note</legend>
         <label htmlFor="noteTitle">Title:</label>
