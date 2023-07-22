@@ -3,10 +3,11 @@ import { onMounted } from 'vue'
 import { RouterView } from 'vue-router'
 import AppLayout from '@/layouts/AppLayout.vue'
 import AppHeader from '@/common/AppHeader.vue'
-import AppFooter from '@/common/AppFooter.vue'
-import { useAuthStore } from '@/stores/authStore'
+import useAuthStore from '@/stores/authStore'
+import useNotesStore from '@/stores/notesStore'
 
 const authStore = useAuthStore()
+const notesStore = useNotesStore()
 
 onMounted(() => {
   authStore.init()
