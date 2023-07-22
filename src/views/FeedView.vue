@@ -7,19 +7,17 @@ const authStore = useAuthStore()
 const notesStore = useNotesStore()
 
 // Fetch user notes when the component is mounted
-onMounted(() => {
-  notesStore.getAllUserNotes(authStore.userUID)
+onMounted(async () => {
+  await notesStore.getAllUserNotes(authStore.userUID)
+  console.log(notesStore.userNotes)
 })
-
-// Access the userNotes Map from the store
-const userNotes = notesStore.userNotes
 </script>
 <template>
-  <div v-if="userNotes.size > 0">
-    <div v-for="(note, noteId) in userNotes" :key="noteId">
+  <div v-if="notesStore.userNotes.size > 0" class="text-white">
+    <div v-for="[key, note] in notesStore.userNotes" :key="key">
       <h3>Title: {{ note.title }}</h3>
-      <p>Content: {{ note.content }}</p>
       <p>Author: {{ note.author }}</p>
+      <p>Content: {{ note.content }}</p>
     </div>
   </div>
   <div v-else>
