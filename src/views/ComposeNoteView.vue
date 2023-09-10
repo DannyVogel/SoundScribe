@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
@@ -7,19 +7,51 @@ import { useRouter } from 'vue-router'
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
 const router = useRouter()
-const isComposing = ref(false)
+const isUploading = ref(false)
+const errorMessage = ref('')
 const note = ref({
   title: '',
   content: '',
   songURL: ''
 })
 
+const getYoutubeVideoId = (url) => {
+  const youtubeUrlRegex =
+    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=([-\w]+))(?:\S+)?|embed\/([-\w]+)|v\/([-\w]+)|user\/\w+)?|youtu\.be\/([-\w]+))/
+  const match = url.match(youtubeUrlRegex)
+
+  if (match) {
+    const videoId = match[1] || match[2] || match[3] || match[4]
+    return 'https://www.youtube.com/watch?v=' + videoId
+  }
+
+  return null
+}
+
 if (!authStore.isLoggedIn) {
   router.push('/')
 }
 
 const uploadNote = async () => {
-  isComposing.value = true
+  isUploading.value = true
+  if (!note.value.title) {
+    isUploading.value = false
+    errorMessage.value = 'Please enter a title.'
+    return
+  }
+  if (!note.value.content) {
+    isUploading.value = false
+    errorMessage.value = 'Please enter some content.'
+    return
+  }
+  const youtubeURL = getYoutubeVideoId(note.value.songURL)
+  if (!youtubeURL) {
+    isUploading.value = false
+    errorMessage.value =
+      'Please enter a valid YouTube URL. (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ)'
+    return
+  }
+  note.value.songURL = youtubeURL
   await notesStore.uploadNote(
     authStore.userName,
     note.value.title,
@@ -27,7 +59,7 @@ const uploadNote = async () => {
     note.value.songURL,
     authStore.userUID
   )
-  isComposing.value = false
+  isUploading.value = false
 }
 onMounted(async () => {
   await notesStore.getAllUserNotes(authStore.userUID)
@@ -38,18 +70,34 @@ onMounted(async () => {
   <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
     <h1>Compose Note</h1>
     <form @submit.prevent="uploadNote" class="mt-4 sm:max-w-2xl flex flex-col justify-center">
-      <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border text-black">
+      <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
         <legend>Your Note</legend>
         <label htmlFor="noteTitle">Title:</label>
-        <input v-model="note.title" type="text" name="noteTitle" id="noteTitle" />
+        <input
+          v-model="note.title"
+          type="text"
+          name="noteTitle"
+          id="noteTitle"
+          class="text-black"
+        />
         <label htmlFor="noteContent">Content:</label>
-        <textarea v-model="note.content" name="noteContent" id="noteContent" rows="10"></textarea>
+        <textarea
+          v-model="note.content"
+          name="noteContent"
+          id="noteContent"
+          rows="8"
+          style="resize: none"
+          class="text-black"
+        ></textarea>
         <label htmlFor="songURL">Song Link:</label>
-        <input v-model="note.songURL" type="text" name="songURL" id="songURL" />
+        <input v-model="note.songURL" type="text" name="songURL" id="songURL" class="text-black" />
+        <p class="text-red-500 text-xs">
+          {{ errorMessage }}
+        </p>
         <button
           class="w-full h-12 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-xl flex justify-center items-center mb-4"
-          :class="isComposing && 'animate-pulse'"
-          :disabled="isComposing"
+          :class="isUploading && 'animate-pulse'"
+          :disabled="isUploading"
         >
           Compose Note
         </button>
