@@ -9,6 +9,10 @@ import {
   signOut,
   setDoc,
   getDoc,
+  getDocs,
+  query,
+  where,
+  collection,
   doc,
   db
 } from '@/services/Firebase'
@@ -72,7 +76,7 @@ const useAuthStore = defineStore('auth', {
         }
       }
     },
-    async signIn(email, password) {
+    async signIn(email: string, password: string) {
       try {
         const data = await signInWithEmailAndPassword(auth, email, password)
         getDoc(doc(db, 'users', data.user.uid)).then((doc) => {
@@ -84,9 +88,19 @@ const useAuthStore = defineStore('auth', {
           }
         })
         return 'success'
-      } catch (error) {
+      } catch (error: any) {
         console.log(error.code, error.message)
         return error.message
+      }
+    },
+    async searchUser(userName: string) {
+      try {
+        const querySnapshot = await getDocs(
+          query(collection(db, 'users'), where('userName', '==', userName))
+        )
+        return querySnapshot.docs[0].id
+      } catch (error) {
+        console.log(error)
       }
     },
     async logOut() {
