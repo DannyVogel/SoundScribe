@@ -1,22 +1,34 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import { Note } from '@/types'
 import ActionBar from '@/common/ActionBar.vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 
 const authStore = useAuthStore()
-
 const notesStore = useNotesStore()
+const router = useRouter()
+
+const currentScribe = ref()
 const notes = ref()
 const currentNote = ref(0)
 // Fetch user notes when the component is mounted
 onMounted(async () => {
-  await notesStore.getAllUserNotes(authStore.userUID)
-  notes.value = Object.values(notesStore.userNotes).sort((a: Note, b: Note) => {
-    return b.timeStamp.seconds - a.timeStamp.seconds
-  })
-  console.log(notes.value)
+  const currentPath = router.currentRoute.value.path.toString().split('/')
+  const user = currentPath[currentPath.length - 1]
+  if (user !== 'soundboard') {
+    const UID = await authStore.searchUser(user)
+    if (!UID) {
+      return
+    } else {
+      currentScribe.value = user
+      await notesStore.getAllUserNotes(UID)
+      notes.value = Object.values(notesStore.userNotes).sort((a: Note, b: Note) => {
+        return b.timeStamp.seconds - a.timeStamp.seconds
+      })
+    }
+  }
 })
 
 const getNewerPost = () => {
