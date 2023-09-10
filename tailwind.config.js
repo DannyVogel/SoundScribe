@@ -12,6 +12,10 @@ module.exports = {
       gridTemplateRows: {
         layout: '70px 1fr',
         soundBoard: '200px 50px 1fr'
+      },
+      gridTemplateColumns: {
+        actionBar: '1fr 100px 1fr',
+        actionBarMD: '1fr 200px 1fr'
       }
     }
   },
