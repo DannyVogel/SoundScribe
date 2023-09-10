@@ -10,15 +10,7 @@ import {
   serverTimestamp
 } from '@/services/Firebase'
 import { getYouTubeEmbedUrl } from '@/utils'
-
-interface Note {
-  id: string
-  author: string
-  timeStamp: string
-  title: string
-  content: string
-  songURL: string
-}
+import { Note } from '@/types'
 
 const useNotesStore = defineStore('notes', {
   state: () => ({
@@ -45,7 +37,6 @@ const useNotesStore = defineStore('notes', {
       await addDoc(collection(db, 'users', userUID, `userNotes`), docData)
     },
     async getAllUserNotes(userUID: string) {
-      console.log('hi?')
       try {
         const querySnapshot = await getDocs(
           query(collection(db, 'users', userUID, 'userNotes'), orderBy('timeStamp', 'desc'))
