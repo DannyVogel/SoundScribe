@@ -10,7 +10,7 @@ module.exports = {
     },
     extend: {
       gridTemplateRows: {
-        layout: '50px 1fr',
+        layout: '70px 1fr',
         soundBoard: '200px 50px 1fr'
       }
     }
