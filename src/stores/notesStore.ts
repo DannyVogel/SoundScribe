@@ -11,13 +11,28 @@ import {
 } from '@/services/Firebase'
 import { getYouTubeEmbedUrl } from '@/utils'
 
+interface Note {
+  id: string
+  author: string
+  timeStamp: string
+  title: string
+  content: string
+  songURL: string
+}
+
 const useNotesStore = defineStore('notes', {
   state: () => ({
-    userNotes: new Map()
+    userNotes: {} as Record<string, Note>
   }),
   getters: {},
   actions: {
-    async uploadNote(userName, title, content, songURL, userUID) {
+    async uploadNote(
+      userName: string,
+      title: string,
+      content: string,
+      songURL: string,
+      userUID: string
+    ) {
       const id = uuidv4()
       const docData = {
         id: id,
@@ -29,15 +44,15 @@ const useNotesStore = defineStore('notes', {
       }
       await addDoc(collection(db, 'users', userUID, `userNotes`), docData)
     },
-    async getAllUserNotes(userUID) {
+    async getAllUserNotes(userUID: string) {
       console.log('hi?')
       try {
         const querySnapshot = await getDocs(
           query(collection(db, 'users', userUID, 'userNotes'), orderBy('timeStamp', 'desc'))
         )
-        this.userNotes.clear()
+        this.userNotes = {}
         querySnapshot.forEach((doc) => {
-          this.userNotes.set(doc.id, doc.data())
+          this.userNotes[doc.id] = doc.data() as Note // Set the data to the userNotes object
         })
       } catch (error) {
         console.error('Error fetching user notes:', error)
