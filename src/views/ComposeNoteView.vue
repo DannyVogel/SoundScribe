@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 import { useRouter } from 'vue-router'
@@ -15,7 +15,7 @@ const note = ref({
   songURL: ''
 })
 
-const getYoutubeVideoId = (url) => {
+const getYoutubeVideoId = (url: string) => {
   const youtubeUrlRegex =
     /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=([-\w]+))(?:\S+)?|embed\/([-\w]+)|v\/([-\w]+)|user\/\w+)?|youtu\.be\/([-\w]+))/
   const match = url.match(youtubeUrlRegex)
@@ -52,19 +52,20 @@ const uploadNote = async () => {
     return
   }
   note.value.songURL = youtubeURL
-  await notesStore.uploadNote(
+  const res = await notesStore.uploadNote(
     authStore.userName,
     note.value.title,
     note.value.content,
     note.value.songURL,
     authStore.userUID
   )
+  if (res === 'success') {
+    router.push(`/soundboard/${authStore.userName}`)
+  } else {
+    errorMessage.value = 'Something went wrong. Please try again.'
+  }
   isUploading.value = false
 }
-onMounted(async () => {
-  await notesStore.getAllUserNotes(authStore.userUID)
-  console.log('userNotes', notesStore.userNotes.size)
-})
 </script>
 <template>
   <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
