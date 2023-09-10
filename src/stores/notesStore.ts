@@ -34,7 +34,13 @@ const useNotesStore = defineStore('notes', {
         content: content,
         songURL: getYouTubeEmbedUrl(songURL)
       }
-      await addDoc(collection(db, 'users', userUID, `userNotes`), docData)
+      try {
+        await addDoc(collection(db, 'users', userUID, 'userNotes'), docData)
+        return 'success'
+      } catch (error) {
+        console.error('Error writing document: ', error)
+        return 'error'
+      }
     },
     async getAllUserNotes(userUID: string) {
       try {
