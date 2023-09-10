@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import useAuthStore from '@/stores/authStore'
@@ -79,7 +79,7 @@ const logOut = async () => {
       </div>
       <RouterLink
         v-if="authStore.accountType === 'Scribe'"
-        @click="isSideNavShown = false"
+        @click="$emit('close')"
         :to="`/soundboard/${authStore.userName}`"
         class="w-full h-8 py-5 rounded bg-orange-500 hover:bg-orange-600 hover:border-b hover:border-b-white cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
@@ -87,7 +87,7 @@ const logOut = async () => {
       </RouterLink>
       <RouterLink
         v-if="authStore.accountType === 'Scribe'"
-        @click="isSideNavShown = false"
+        @click="$emit('close')"
         :to="{ name: 'composeNote' }"
         class="w-full h-8 py-5 rounded bg-orange-500 hover:bg-orange-600 hover:border-b hover:border-b-white cursor-pointer text-white text-base flex justify-center items-center gap-2"
       >
@@ -141,7 +141,7 @@ const logOut = async () => {
         <p class="text-white text-center">New user?</p>
         <RouterLink
           :to="{ name: 'signUp' }"
-          @click.stop="isSideNavShown = false"
+          @click.stop="$emit('close')"
           class="w-full h-8 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base flex justify-center items-center"
           >Sign up here</RouterLink
         >
