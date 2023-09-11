@@ -101,6 +101,7 @@ const useAuthStore = defineStore('auth', {
         return querySnapshot.docs[0].id
       } catch (error) {
         console.log(error)
+        return null
       }
     },
     async logOut() {
