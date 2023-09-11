@@ -81,7 +81,7 @@ const getOlderPost = () => {
 }
 </script>
 <template>
-  <div class="w-full max-h-full h-full text-white">
+  <div class="w-full max-h-full h-full text-white overflow-y-hidden">
     <div
       v-if="isLoading"
       class="max-h-full h-full text-white flex flex-col justify-center items-center gap-4"
