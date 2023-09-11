@@ -14,9 +14,18 @@ import { Note } from '@/types'
 
 const useNotesStore = defineStore('notes', {
   state: () => ({
-    userNotes: {} as Record<string, Note>
+    userNotes: {} as Record<string, Note>,
+    allUsersNotes: {} as Record<string, Note>
   }),
-  getters: {},
+  getters: {
+    getAllUserNotesAsArray: (state) => Object.values(state.userNotes),
+    getAllNotesAsArray: (state) => Object.values(state.allUsersNotes),
+    getAllUsersNotesSortedByTimestamp: (state) => {
+      return Object.values(state.allUsersNotes).sort((a: Note, b: Note) => {
+        return b.timeStamp.seconds - a.timeStamp.seconds
+      })
+    }
+  },
   actions: {
     async uploadNote(
       userName: string,
@@ -53,6 +62,24 @@ const useNotesStore = defineStore('notes', {
         })
       } catch (error) {
         console.error('Error fetching user notes:', error)
+      }
+    },
+    async getAllNotes() {
+      try {
+        const querySnapshot = await getDocs(collection(db, 'users'))
+        this.allUsersNotes = {}
+        querySnapshot.forEach(async (userDoc) => {
+          const userUID = userDoc.data().userUID
+
+          const userNotesSnapshot = await getDocs(
+            query(collection(db, 'users', userUID, 'userNotes'), orderBy('timeStamp', 'desc'))
+          )
+          userNotesSnapshot.forEach((noteDoc) => {
+            this.allUsersNotes[noteDoc.id] = noteDoc.data() as Note
+          })
+        })
+      } catch (error) {
+        console.error('Error fetching all notes:', error)
       }
     }
   }
