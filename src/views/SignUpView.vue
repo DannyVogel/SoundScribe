@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import useAuthStore from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
+import { usernameRegex, passwordRegex, emailRegex } from '@/utils'
 
 const authStore = useAuthStore()
 const router = useRouter()
@@ -21,6 +22,31 @@ const form = ref({
 async function processSignUpFormData() {
   btnMessage.value = 'Creating Account...'
   isSigningUp.value = true
+  errorMessage.value = ''
+
+  if (!usernameRegex.test(form.value.userName)) {
+    errorMessage.value =
+      'User name must be at least 3 characters long and contain no spaces or invalid characters'
+    btnMessage.value = 'Create Account'
+    isSigningUp.value = false
+    return
+  }
+
+  if (!emailRegex.test(form.value.email)) {
+    errorMessage.value = 'Please enter a valid email address'
+    btnMessage.value = 'Create Account'
+    isSigningUp.value = false
+    return
+  }
+
+  if (!passwordRegex.test(form.value.password)) {
+    errorMessage.value =
+      'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+    btnMessage.value = 'Create Account'
+    isSigningUp.value = false
+    return
+  }
+
   const res = await authStore.signUp(form.value)
   if (res === 'success') {
     toast(`Welcome ${form.value.userName}!`, {
@@ -36,7 +62,7 @@ async function processSignUpFormData() {
 }
 </script>
 <template>
-  <div class="bg-gray-800 p-3 sm:pt-20 h-full">
+  <div class="bg-gray-800 p-3 sm:pt-20 h-full overflow-scroll text-white">
     <h1 class="text-center text-3xl font-bold">Join SoundScribe</h1>
     <form @submit.prevent="processSignUpFormData" class="mt-4 sm:max-w-lg sm:mx-auto">
       <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
@@ -45,7 +71,7 @@ async function processSignUpFormData() {
           <label htmlFor="userName">User Name:</label>
           <input
             v-model="form.userName"
-            class="sm:max-w-sm"
+            class="text-black px-2 sm:max-w-sm"
             type="text"
             name="userName"
             id="userName"
@@ -54,7 +80,7 @@ async function processSignUpFormData() {
           <label htmlFor="email">Email:</label>
           <input
             v-model="form.email"
-            class="sm:max-w-sm"
+            class="text-black px-2 sm:max-w-sm"
             type="email"
             name="email"
             id="email"
@@ -63,7 +89,7 @@ async function processSignUpFormData() {
           <label htmlFor="password">Password:</label>
           <input
             v-model="form.password"
-            class="sm:max-w-sm"
+            class="text-black px-2 sm:max-w-sm"
             type="password"
             name="password"
             id="password"
