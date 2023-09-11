@@ -14,7 +14,7 @@ const router = useRouter()
 
 const isLoading = ref(false)
 const currentScribe = ref()
-const notes = ref<Note[]>([])
+const notes = ref<Note[]>()
 const currentNote = ref(0)
 
 // Fetch user notes when the component is mounted
