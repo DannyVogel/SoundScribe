@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { RouteLocationNormalized, NavigationGuardNext } from 'vue-router'
 import HomeView from '@/views/HomeView.vue'
 import SignUpView from '@/views/SignUpView.vue'
 import ComposeNoteView from '@/views/ComposeNoteView.vue'
@@ -7,7 +8,11 @@ import FeedView from '@/views/FeedView.vue'
 import DiscoverView from '@/views/DiscoverView.vue'
 import useAuthStore from '@/stores/authStore'
 
-const requireAuth = (to, from, next) => {
+const requireAuth = (
+  to: RouteLocationNormalized,
+  from: RouteLocationNormalized,
+  next: NavigationGuardNext
+) => {
   const authStore = useAuthStore()
   if (!authStore.isLoggedIn) {
     next({ name: 'home' })
@@ -36,7 +41,7 @@ const router = createRouter({
       beforeEnter: requireAuth
     },
     {
-      path: '/soundboard/:user',
+      path: '/soundboard/:user?/:id?',
       name: 'soundBoard',
       component: SoundBoardView
     },
