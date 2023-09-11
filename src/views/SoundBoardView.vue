@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Note } from '@/types'
+import { uuidv4Regex } from '@/utils'
 import ActionBar from '@/common/ActionBar.vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
@@ -10,26 +11,60 @@ const authStore = useAuthStore()
 const notesStore = useNotesStore()
 const router = useRouter()
 
+const isLoading = ref(false)
 const currentScribe = ref()
-const notes = ref()
+const notes = ref<Note[]>([])
 const currentNote = ref(0)
 // Fetch user notes when the component is mounted
 onMounted(async () => {
-  const currentPath = router.currentRoute.value.path.toString().split('/')
-  const user = currentPath[currentPath.length - 1]
-  if (user !== 'soundboard') {
-    const UID = await authStore.searchUser(user)
-    if (!UID) {
-      return
-    } else {
-      currentScribe.value = user
-      await notesStore.getAllUserNotes(UID)
-      notes.value = Object.values(notesStore.userNotes).sort((a: Note, b: Note) => {
-        return b.timeStamp.seconds - a.timeStamp.seconds
-      })
-    }
-  }
+  isLoading.value = true
+  await getNotes()
+  setTimeout(() => {
+    isLoading.value = false
+  }, 500)
 })
+
+const getNotes = async () => {
+  const currentPath = router.currentRoute.value.path.toString().split('/')
+  const pathEnd = currentPath[currentPath.length - 1]
+  let user = null
+  let noteId: string | null = null
+
+  if (pathEnd === 'soundboard') {
+    currentScribe.value = null
+    return
+  }
+
+  // If the path ends with a uuidv4, user wants to view a specific note
+  if (uuidv4Regex.test(pathEnd)) {
+    noteId = currentPath[currentPath.length - 1]
+    user = currentPath[currentPath.length - 2]
+  } else {
+    user = currentPath[currentPath.length - 1]
+  }
+  const UID = await authStore.searchUser(user)
+  if (!UID) return
+
+  // If we have a noteID and a user, get users notes and show the specific note
+  if (noteId && user !== 'soundboard') {
+    currentScribe.value = user
+
+    await notesStore.getAllUserNotes(UID)
+    notes.value = Object.values(notesStore.userNotes)
+    currentNote.value = notes.value.findIndex((note: Note) => note.id === noteId)
+    return
+  }
+
+  // No noteID, get all users notes and show the newest
+  if (!noteId && user !== 'soundboard') {
+    currentScribe.value = user
+    await notesStore.getAllUserNotes(UID)
+    notes.value = Object.values(notesStore.userNotes).sort((a: Note, b: Note) => {
+      return b.timeStamp.seconds - a.timeStamp.seconds
+    })
+    return
+  }
+}
 
 const getNewerPost = () => {
   if (currentNote.value > 0) {
@@ -42,10 +77,48 @@ const getOlderPost = () => {
     currentNote.value++
   }
 }
+
+const searchInput = ref('')
+const errorMessage = ref()
+
+const searchUser = async () => {
+  isLoading.value = true
+  const authStore = useAuthStore()
+  const UID = await authStore.searchUser(searchInput.value)
+  if (!UID) {
+    errorMessage.value = 'Scribe not found'
+  } else {
+    router.push({
+      name: 'soundBoard',
+      params: { user: searchInput.value }
+    })
+  }
+  isLoading.value = false
+}
 </script>
 <template>
   <div class="max-h-full h-full text-white">
-    <div v-if="notes" class="w-full max-h-full h-full grid grid-rows-soundBoard gap-3 mt-2">
+    <div
+      v-if="isLoading"
+      class="max-h-full h-full text-white flex flex-col justify-center items-center gap-4"
+    >
+      <p class="font-title text-2xl">Loading...</p>
+      <div class="w-8 h-8 border-2 border-t-2 border-gray-200 rounded-full animate-spin"></div>
+    </div>
+    <div
+      v-else-if="!currentScribe"
+      class="max-h-full h-full text-white flex flex-col items-center gap-4 py-8"
+    >
+      <h1 class="font-title text-2xl">Search for a scribe</h1>
+      <form @submit.prevent="searchUser" class="text-black">
+        <input v-model="searchInput" type="text" />
+      </form>
+      <p class="text-red-500">{{ errorMessage }}</p>
+    </div>
+    <div
+      v-else-if="notes.length > 0"
+      class="w-full max-h-full h-full grid grid-rows-soundBoard md:grid-rows-soundBoardLg gap-3 mt-2"
+    >
       <iframe
         class="w-full h-full"
         :src="notes[currentNote].songURL"
@@ -68,6 +141,20 @@ const getOlderPost = () => {
       <p class="px-3 pb-24 overflow-y-scroll">
         {{ notes[currentNote].content }}
       </p>
+    </div>
+    <div v-else>
+      <h1 class="mt-8 text-center font-title text-2xl">
+        {{ currentScribe }} has not composed any notes yet
+      </h1>
+      <div class="w-full flex justify-center">
+        <RouterLink
+          :to="{
+            name: 'feed'
+          }"
+          class="mt-4 text-xl hover:text-orange-600"
+          >Back to Feed
+        </RouterLink>
+      </div>
     </div>
   </div>
   <div
