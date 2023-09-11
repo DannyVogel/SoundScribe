@@ -62,32 +62,24 @@ function getTimeAgo(timestamp) {
     <p class="font-title text-2xl">Loading...</p>
     <div class="w-8 h-8 border-2 border-t-2 border-gray-200 rounded-full animate-spin"></div>
   </div>
-  <div v-else class="text-white">
-    <div
-      v-for="note in notes"
-      :key="note.id"
-      class="my-4 bg-gray-900 rounded-lg p-2 flex gap-2 sm:gap-3"
-    >
-      <img
-        class="my-auto w-32 h-16 object-cover rounded-full"
-        :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
-      />
-      <!-- <iframe
-        class="w-40 h-40 rounded-3xl"
-        :src="note.songURL + '?controls=0&modestbranding=1'"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-        fs="0"
-      ></iframe> -->
-      <div class="grow flex flex-col justify-center gap-2">
-        <p class="underline text-xs sm:text-sm">{{ note.author }}</p>
-        <h3 class="text-sm sm:text-base font-bold text-orange-600">{{ note.title }}</h3>
-        <p class="text-xs sm:text-sm font-light">
-          {{ getTimeAgo(note.timeStamp) }}
-        </p>
-      </div>
+  <div v-else class="text-white mx-1">
+    <div v-for="note in notes" :key="note.id">
+      <RouterLink
+        :to="`/soundboard/${note.author}/${note.id}`"
+        class="my-4 bg-gray-900 rounded-lg p-2 flex gap-2 sm:gap-3 shadow-lg hover:ring hover:ring-orange-600"
+      >
+        <img
+          class="my-auto w-32 h-16 object-cover rounded-full ring ring-orange-600"
+          :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
+        />
+        <div class="grow flex flex-col justify-center gap-2">
+          <p class="underline text-xs sm:text-sm">{{ note.author }}</p>
+          <h3 class="text-sm sm:text-base font-bold text-orange-600">{{ note.title }}</h3>
+          <p class="text-xs sm:text-sm font-light">
+            {{ getTimeAgo(note.timeStamp) }}
+          </p>
+        </div>
+      </RouterLink>
     </div>
   </div>
 </template>
