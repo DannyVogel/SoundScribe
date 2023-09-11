@@ -4,6 +4,7 @@ import { RouterLink } from 'vue-router'
 import useAuthStore from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
 import { useRouter } from 'vue-router'
+import SearchScribe from '@/common/SearchScribe.vue'
 
 defineEmits(['close'])
 const authStore = useAuthStore()
@@ -94,6 +95,8 @@ const logOut = async () => {
         <i class="fa-regular fa-pen-to-square"></i>
         <p>Compose Note</p>
       </RouterLink>
+      <SearchScribe @close="$emit('close')" />
+
       <button
         @click="logOut"
         class="w-full h-8 mt-auto mb-4 rounded bg-orange-500 hover:bg-orange-600 cursor-pointer text-white text-base"
@@ -146,6 +149,7 @@ const logOut = async () => {
           >Sign up here</RouterLink
         >
       </div>
+      <SearchScribe class="mt-6" @close="$emit('close')" />
     </div>
     <footer class="mt-auto w-full h-6 flex justify-between items-center">
       <p class="text-white">&#169; 2023 SoundScribe</p>
