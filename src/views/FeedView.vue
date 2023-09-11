@@ -1,45 +1,93 @@
 <script setup lang="ts">
 // TODO: This file is where notes from all users will show, not like its setup now
 
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watchEffect } from 'vue'
 import useAuthStore from '@/stores/authStore'
-import useNotesStore from '@/stores/notesStore'
 import { Note } from '@/types'
+import useNotesStore from '@/stores/notesStore'
+import { youtubeUrlRegex } from '@/utils'
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
-const notes = ref()
+const notes = ref(null as Note[] | null)
 // Fetch user notes when the component is mounted
 onMounted(async () => {
-  await notesStore.getAllUserNotes(authStore.userUID)
-  notes.value = Object.values(notesStore.userNotes)
+  await notesStore.getAllNotes()
 })
 
-const recentFirstSort = () => {
-  notes.value = notes.value.sort((a: Note, b: Note) => {
-    return b.timeStamp.seconds - a.timeStamp.seconds
-  })
+watchEffect(() => {
+  notes.value = notesStore.getAllUsersNotesSortedByTimestamp
+})
+
+function getYoutubeVideoId(url: string) {
+  const match = url.match(youtubeUrlRegex)
+
+  if (match) {
+    const videoId = match[1] || match[2] || match[3] || match[4]
+    return videoId
+  }
+
+  return ''
+}
+
+function getTimeAgo(timestamp) {
+  const currentTime = new Date().getTime()
+  const timeDifference = currentTime - timestamp.seconds * 1000
+
+  const seconds = Math.floor(timeDifference / 1000)
+  if (seconds < 60) {
+    return `${seconds} seconds ago`
+  }
+
+  const minutes = Math.floor(timeDifference / (1000 * 60))
+  if (minutes < 60) {
+    return `${minutes} minutes ago`
+  }
+
+  const hours = Math.floor(timeDifference / (1000 * 60 * 60))
+  if (hours < 12) {
+    return `${hours} hours ago`
+  }
+
+  const date = new Date(timestamp.seconds * 1000)
+  const options = { month: 'short', day: 'numeric', year: 'numeric' }
+  return date.toLocaleDateString('en-US', options)
 }
 </script>
 <template>
-  <div v-if="notes" class="text-white">
-    <div class="flex gap-2">
-      <button @click="recentFirstSort" class="bg-red-500">Reverse Sort</button>
-    </div>
-    <div v-for="note in notes" :key="note.id">
-      <h3>Title: {{ note.title }}</h3>
-      <p>Author: {{ note.author }}</p>
-      <p>
-        Date:
-        {{
-          note.timeStamp
-            .toDate()
-            .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-        }}
-      </p>
-    </div>
+  <div
+    v-if="!notes"
+    class="max-h-full h-full text-white flex flex-col justify-center items-center gap-4"
+  >
+    <p class="font-title text-2xl">Loading...</p>
+    <div class="w-8 h-8 border-2 border-t-2 border-gray-200 rounded-full animate-spin"></div>
   </div>
-  <div v-else>
-    <p>Loading user notes...</p>
+  <div v-else class="text-white">
+    <div
+      v-for="note in notes"
+      :key="note.id"
+      class="my-4 bg-gray-900 rounded-lg p-2 flex gap-2 sm:gap-3"
+    >
+      <img
+        class="my-auto w-32 h-16 object-cover rounded-full"
+        :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
+      />
+      <!-- <iframe
+        class="w-40 h-40 rounded-3xl"
+        :src="note.songURL + '?controls=0&modestbranding=1'"
+        title="YouTube video player"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        fs="0"
+      ></iframe> -->
+      <div class="grow flex flex-col justify-center gap-2">
+        <p class="underline text-xs sm:text-sm">{{ note.author }}</p>
+        <h3 class="text-sm sm:text-base font-bold text-orange-600">{{ note.title }}</h3>
+        <p class="text-xs sm:text-sm font-light">
+          {{ getTimeAgo(note.timeStamp) }}
+        </p>
+      </div>
+    </div>
   </div>
 </template>
