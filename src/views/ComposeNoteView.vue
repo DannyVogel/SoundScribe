@@ -3,6 +3,7 @@ import { ref } from 'vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 import { useRouter } from 'vue-router'
+import { youtubeUrlRegex } from '@/utils'
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
@@ -16,8 +17,6 @@ const note = ref({
 })
 
 const getYoutubeVideoId = (url: string) => {
-  const youtubeUrlRegex =
-    /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=([-\w]+))(?:\S+)?|embed\/([-\w]+)|v\/([-\w]+)|user\/\w+)?|youtu\.be\/([-\w]+))/
   const match = url.match(youtubeUrlRegex)
 
   if (match) {
@@ -39,6 +38,13 @@ const uploadNote = async () => {
     errorMessage.value = 'Please enter a title.'
     return
   }
+
+  if (note.value.title.length > 25) {
+    isUploading.value = false
+    errorMessage.value = 'Please enter a title that is less than 25 characters.'
+    return
+  }
+
   if (!note.value.content) {
     isUploading.value = false
     errorMessage.value = 'Please enter some content.'
