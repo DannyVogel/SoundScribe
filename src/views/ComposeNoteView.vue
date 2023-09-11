@@ -82,14 +82,13 @@ const uploadNote = async () => {
           class="text-black"
         />
         <label htmlFor="noteContent">Content:</label>
-        <textarea
-          v-model="note.content"
-          name="noteContent"
-          id="noteContent"
-          rows="8"
-          style="resize: none"
-          class="text-black"
-        ></textarea>
+        <QuillEditor
+          v-model:content="note.content"
+          contentType="html"
+          theme="snow"
+          :options="{ placeholder: 'Compose your Note' }"
+          class="text-white"
+        />
         <label htmlFor="songURL">Song Link:</label>
         <input v-model="note.songURL" type="text" name="songURL" id="songURL" class="text-black" />
         <p class="text-red-500 text-xs">
