@@ -20,7 +20,7 @@ onMounted(() => {
       <AppHeader />
     </template>
     <template #main>
-      <RouterView />
+      <RouterView :key="$route.path" />
     </template>
   </AppLayout>
 </template>
