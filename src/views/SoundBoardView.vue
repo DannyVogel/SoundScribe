@@ -4,6 +4,7 @@ import { useRouter } from 'vue-router'
 import { Note } from '@/types'
 import { uuidv4Regex } from '@/utils'
 import ActionBar from '@/common/ActionBar.vue'
+import SearchScribe from '@/common/SearchScribe.vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 
@@ -15,6 +16,7 @@ const isLoading = ref(false)
 const currentScribe = ref()
 const notes = ref<Note[]>([])
 const currentNote = ref(0)
+
 // Fetch user notes when the component is mounted
 onMounted(async () => {
   isLoading.value = true
@@ -77,27 +79,9 @@ const getOlderPost = () => {
     currentNote.value++
   }
 }
-
-const searchInput = ref('')
-const errorMessage = ref()
-
-const searchUser = async () => {
-  isLoading.value = true
-  const authStore = useAuthStore()
-  const UID = await authStore.searchUser(searchInput.value)
-  if (!UID) {
-    errorMessage.value = 'Scribe not found'
-  } else {
-    router.push({
-      name: 'soundBoard',
-      params: { user: searchInput.value }
-    })
-  }
-  isLoading.value = false
-}
 </script>
 <template>
-  <div class="max-h-full h-full text-white">
+  <div class="w-full max-h-full h-full text-white">
     <div
       v-if="isLoading"
       class="max-h-full h-full text-white flex flex-col justify-center items-center gap-4"
@@ -105,15 +89,8 @@ const searchUser = async () => {
       <p class="font-title text-2xl">Loading...</p>
       <div class="w-8 h-8 border-2 border-t-2 border-gray-200 rounded-full animate-spin"></div>
     </div>
-    <div
-      v-else-if="!currentScribe"
-      class="max-h-full h-full text-white flex flex-col items-center gap-4 py-8"
-    >
-      <h1 class="font-title text-2xl">Search for a scribe</h1>
-      <form @submit.prevent="searchUser" class="text-black">
-        <input v-model="searchInput" type="text" />
-      </form>
-      <p class="text-red-500">{{ errorMessage }}</p>
+    <div v-else-if="!currentScribe" class="max-h-full h-full w-full max-w-xs mx-auto py-8">
+      <SearchScribe />
     </div>
     <div
       v-else-if="notes.length > 0"
@@ -138,9 +115,7 @@ const searchUser = async () => {
           - {{ authStore.userName }}
         </p>
       </div>
-      <p class="px-3 pb-24 overflow-y-scroll">
-        {{ notes[currentNote].content }}
-      </p>
+      <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>
     </div>
     <div v-else>
       <h1 class="mt-8 text-center font-title text-2xl">
