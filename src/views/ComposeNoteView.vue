@@ -74,10 +74,15 @@ const uploadNote = async () => {
 }
 </script>
 <template>
-  <div class="p-3 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
+  <div class="w-full p-2 flex flex-col justify-center sm:max-w-2xl sm:mx-auto text-white">
     <h1>Compose Note</h1>
-    <form @submit.prevent="uploadNote" class="mt-4 sm:max-w-2xl flex flex-col justify-center">
-      <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
+    <form
+      @submit.prevent="uploadNote"
+      class="w-full mt-4 sm:max-w-2xl flex flex-col justify-center"
+    >
+      <fieldset
+        class="w-full max-w-sm sm:max-w-xl px-3 flex flex-col justify-center gap-2.5 border"
+      >
         <legend>Your Note</legend>
         <label htmlFor="noteTitle">Title:</label>
         <input
@@ -88,13 +93,15 @@ const uploadNote = async () => {
           class="text-black"
         />
         <label htmlFor="noteContent">Content:</label>
-        <QuillEditor
-          v-model:content="note.content"
-          contentType="html"
-          theme="snow"
-          :options="{ placeholder: 'Compose your Note' }"
-          class="text-white"
-        />
+        <div class="max-w-full">
+          <QuillEditor
+            v-model:content="note.content"
+            contentType="html"
+            theme="snow"
+            :options="{ placeholder: 'Compose your Note' }"
+            class="text-white w-full"
+          />
+        </div>
         <label htmlFor="songURL">Song Link:</label>
         <input v-model="note.songURL" type="text" name="songURL" id="songURL" class="text-black" />
         <p class="text-red-500 text-xs">
@@ -111,3 +118,29 @@ const uploadNote = async () => {
     </form>
   </div>
 </template>
+
+<style>
+.ql-container {
+  width: 100%;
+  min-height: 10rem;
+  height: 100%;
+  flex: 1;
+  flex-wrap: wrap;
+  display: flex;
+  flex-direction: column;
+  word-break: break-all;
+}
+
+.ql-editor {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  word-break: break-all;
+}
+
+.ql-snow {
+  width: 100%;
+}
+</style>
