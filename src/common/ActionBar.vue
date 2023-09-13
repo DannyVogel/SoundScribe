@@ -21,6 +21,7 @@ const props = defineProps({
 })
 
 const isCopied = ref(false)
+const isLiked = ref(false)
 
 const copyToClipboard = () => {
   isCopied.value = true
@@ -29,7 +30,14 @@ const copyToClipboard = () => {
   navigator.clipboard.writeText(noteUrl)
   setTimeout(() => {
     isCopied.value = false
-  }, 1000)
+  }, 1500)
+}
+
+const likeNote = () => {
+  isLiked.value = true
+  setTimeout(() => {
+    isLiked.value = false
+  }, 1500)
 }
 </script>
 <template>
@@ -47,12 +55,18 @@ const copyToClipboard = () => {
       </div>
     </div>
     <div class="flex justify-center items-center gap-2 md:gap-6">
-      <p class="text-xl cursor-pointer">🎶</p>
+      <p
+        @click="likeNote"
+        class="text-xl cursor-pointer"
+        :class="isLiked && 'scale-105 animate-bounce'"
+      >
+        🎶
+      </p>
       <ChatBubbleLeftRightIcon class="w-6 cursor-pointer" />
       <ShareIcon
         @click="copyToClipboard"
         class="w-6 cursor-pointer"
-        :class="isCopied && 'scale-105 text-green-600 animate-ping'"
+        :class="isCopied && 'scale-105 text-green-600 animate-bounce'"
       />
     </div>
     <div>
