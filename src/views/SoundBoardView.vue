@@ -14,7 +14,7 @@ const router = useRouter()
 
 const isLoading = ref(false)
 const currentScribe = ref()
-const notes = ref<Note[]>()
+const notes = ref<Note[]>([])
 const currentNote = ref(0)
 
 // Fetch user notes when the component is mounted
@@ -104,16 +104,19 @@ const getOlderPost = () => {
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
       ></iframe>
-      <div class="px-3">
-        <h1 class="font-title text-white text-2xl">{{ notes[currentNote].title }}</h1>
-        <p class="text-sm text-gray-400">
-          {{
-            notes[currentNote].timeStamp
-              .toDate()
-              .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-          }}
-          - {{ authStore.userName }}
-        </p>
+      <div class="px-3 flex items-end">
+        <div class="">
+          <h1 class="font-title text-white text-2xl">{{ notes[currentNote].title }}</h1>
+          <p class="text-sm text-gray-400">
+            {{
+              notes[currentNote].timeStamp
+                .toDate()
+                .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+            }}
+            - {{ authStore.userName }}
+          </p>
+        </div>
+        <p class="ml-auto text-sm text-gray-400">{{ notes[currentNote].likedBy?.length }} 🎶</p>
       </div>
       <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>
     </div>

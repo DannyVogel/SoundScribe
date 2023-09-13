@@ -75,9 +75,12 @@ function getTimeAgo(timestamp) {
         <div class="grow flex flex-col justify-center gap-2">
           <p class="underline text-xs sm:text-sm">{{ note.author }}</p>
           <h3 class="text-sm sm:text-base font-bold text-orange-600">{{ note.title }}</h3>
-          <p class="text-xs sm:text-sm font-light">
-            {{ getTimeAgo(note.timeStamp) }}
-          </p>
+          <div class="flex items-center">
+            <p class="text-xs sm:text-sm font-light">
+              {{ getTimeAgo(note.timeStamp) }}
+            </p>
+            <p class="ml-auto text-sm text-gray-400">🎶 {{ note.likedBy?.length }}</p>
+          </div>
         </div>
       </RouterLink>
     </div>
