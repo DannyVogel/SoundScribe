@@ -16,7 +16,7 @@ const isSideNavShown = ref(false)
     <div class="w-full flex flex-col justify-start">
       <h1
         @click="router.push('/')"
-        class="font-title text-white text-2xl cursor-pointer hover:animate-pulse"
+        class="w-fit font-title text-white text-2xl cursor-pointer hover:animate-pulse"
         to="/"
       >
         SoundScribe
