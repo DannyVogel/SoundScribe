@@ -23,7 +23,7 @@ onMounted(async () => {
   await getNotes()
   setTimeout(() => {
     isLoading.value = false
-  }, 500)
+  }, 1000)
 })
 
 const getNotes = async () => {
@@ -67,6 +67,7 @@ const getNotes = async () => {
     return
   }
 }
+console.log('here', notes.value[currentNote.value])
 
 const getNewerPost = () => {
   if (currentNote.value > 0) {
@@ -142,7 +143,7 @@ const getOlderPost = () => {
     class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-gray-800"
   ></div>
   <ActionBar
-    v-if="currentScribe && notes"
+    v-if="currentScribe && notes[currentNote]"
     :is-newest-note="currentNote === 0"
     :is-oldest-note="currentNote === notes.length - 1"
     :note="notes[currentNote]"

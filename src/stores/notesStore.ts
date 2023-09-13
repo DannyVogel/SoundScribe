@@ -46,7 +46,9 @@ const useNotesStore = defineStore('notes', {
         timeStamp: serverTimestamp(),
         title: title,
         content: content,
-        songURL: getYouTubeEmbedUrl(songURL)
+        songURL: getYouTubeEmbedUrl(songURL),
+        likedBy: [],
+        comments: []
       }
       try {
         await addDoc(collection(db, 'users', userUID, 'userNotes'), docData)
