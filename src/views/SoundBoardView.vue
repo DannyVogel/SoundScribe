@@ -139,6 +139,7 @@ const getOlderPost = () => {
     v-if="notes"
     :is-newest-note="currentNote === 0"
     :is-oldest-note="currentNote === notes.length - 1"
+    :note="notes[currentNote]"
     @newer="getNewerPost"
     @older="getOlderPost"
   />

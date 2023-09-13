@@ -1,8 +1,11 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { ShareIcon, ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
+import { PropType } from 'vue'
+import { Note } from '@/types'
 
 defineEmits(['newer', 'older'])
-defineProps({
+const props = defineProps({
   isNewestNote: {
     type: Boolean,
     required: true
@@ -10,8 +13,24 @@ defineProps({
   isOldestNote: {
     type: Boolean,
     required: true
+  },
+  note: {
+    type: Object as PropType<Note>,
+    required: true
   }
 })
+
+const isCopied = ref(false)
+
+const copyToClipboard = () => {
+  isCopied.value = true
+  const url = window.location.href.split('/').slice(0, -1).join('/')
+  const noteUrl = `${url}/${props.note.id}`
+  navigator.clipboard.writeText(noteUrl)
+  setTimeout(() => {
+    isCopied.value = false
+  }, 1000)
+}
 </script>
 <template>
   <div
@@ -30,7 +49,11 @@ defineProps({
     <div class="flex justify-center items-center gap-2 md:gap-6">
       <p class="text-xl cursor-pointer">🎶</p>
       <ChatBubbleLeftRightIcon class="w-6 cursor-pointer" />
-      <ShareIcon class="w-6 cursor-pointer" />
+      <ShareIcon
+        @click="copyToClipboard"
+        class="w-6 cursor-pointer"
+        :class="isCopied && 'scale-105 text-green-600 animate-ping'"
+      />
     </div>
     <div>
       <div
