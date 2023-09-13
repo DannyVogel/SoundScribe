@@ -73,18 +73,18 @@ const likeNote = () => {
       </div>
     </div>
     <div class="flex justify-center items-center gap-2 md:gap-6">
-      <p
-        @click="likeNote"
-        class="text-xl cursor-pointer"
-        :class="isLiked && 'scale-105 animate-bounce'"
-      >
-        🎶
-      </p>
-      <ChatBubbleLeftRightIcon class="w-6 cursor-pointer" />
+      <div @click="likeNote" class="text-xl cursor-pointer">
+        <img
+          src="@/assets/icons/musical-note.png"
+          class="w-6"
+          :class="isLiked && 'scale-105 animate-bounce'"
+        />
+      </div>
+      <ChatBubbleLeftRightIcon class="w-6 cursor-pointer text-[#D83131]" />
       <ShareIcon
         @click="copyToClipboard"
-        class="w-6 cursor-pointer"
-        :class="isCopied && 'scale-105 text-green-600 animate-bounce'"
+        class="w-6 cursor-pointer text-[#D83131]"
+        :class="isCopied && 'scale-105  animate-bounce'"
       />
     </div>
     <div>
