@@ -114,8 +114,9 @@ async function processSignUpFormData() {
               <p class="text-center font-bold">Sounders</p>
             </div>
             <p class="text-center">
-              Enjoy the sounds posted by Scribes, hand out likes (🎶) and leave comments. You can
-              always upgrade to Scribe at any time.
+              Enjoy the sounds posted by Scribes, hand out likes
+              <img src="@/assets/icons/musical-note.png" class="w-5 inline" /> and leave comments.
+              You can always upgrade to Scribe at any time.
             </p>
           </div>
           <div class="h-60 flex flex-col items-center flex-1">
@@ -131,7 +132,7 @@ async function processSignUpFormData() {
             </div>
             <p class="text-center">
               Create notes, leaving your thoughts and favorite sounds in a note. Comment on and like
-              (🎶) other Scribe's notes.
+              <img src="@/assets/icons/musical-note.png" class="w-5 inline" /> other Scribe's notes.
             </p>
           </div>
         </div>

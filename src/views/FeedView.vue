@@ -79,7 +79,9 @@ function getTimeAgo(timestamp) {
             <p class="text-xs sm:text-sm font-light">
               {{ getTimeAgo(note.timeStamp) }}
             </p>
-            <p class="ml-auto text-sm text-gray-400">🎶 {{ note.likedBy?.length }}</p>
+            <div class="ml-auto text-sm text-gray-400 flex gap-2">
+              <img src="@/assets/icons/musical-note.png" class="w-5" /> {{ note.likedBy?.length }}
+            </div>
           </div>
         </div>
       </RouterLink>

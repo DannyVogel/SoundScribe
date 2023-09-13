@@ -116,7 +116,10 @@ const getOlderPost = () => {
             - {{ authStore.userName }}
           </p>
         </div>
-        <p class="ml-auto text-sm text-gray-400">{{ notes[currentNote].likedBy?.length }} 🎶</p>
+        <div class="ml-auto text-sm text-gray-400 flex gap-2">
+          {{ notes[currentNote].likedBy?.length }}
+          <img src="@/assets/icons/musical-note.png" class="w-5" />
+        </div>
       </div>
       <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>
     </div>
@@ -139,7 +142,7 @@ const getOlderPost = () => {
     class="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-b from-transparent to-gray-800"
   ></div>
   <ActionBar
-    v-if="notes"
+    v-if="currentScribe && notes"
     :is-newest-note="currentNote === 0"
     :is-oldest-note="currentNote === notes.length - 1"
     :note="notes[currentNote]"
