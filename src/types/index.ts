@@ -5,6 +5,9 @@ export interface Note {
   title: string
   content: string
   songURL: string
+  likedBy: string[]
+  comments?: object[]
+  [key: string]: any
 }
 
 interface Timestamp {

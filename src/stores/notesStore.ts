@@ -3,14 +3,17 @@ import { v4 as uuidv4 } from 'uuid'
 import {
   collection,
   db,
+  doc,
   getDocs,
   addDoc,
+  updateDoc,
   orderBy,
   query,
   serverTimestamp
 } from '@/services/Firebase'
-import { getYouTubeEmbedUrl } from '@/utils'
+import { getYouTubeEmbedUrl, findNoteById, findNoteKeyById } from '@/utils'
 import { Note } from '@/types'
+import useAuthStore from '@/stores/authStore'
 
 const useNotesStore = defineStore('notes', {
   state: () => ({
@@ -32,7 +35,9 @@ const useNotesStore = defineStore('notes', {
       title: string,
       content: string,
       songURL: string,
-      userUID: string
+      userUID: string,
+      likedBy: string[],
+      comments: object[]
     ) {
       const id = uuidv4()
       const docData = {
@@ -80,6 +85,33 @@ const useNotesStore = defineStore('notes', {
         })
       } catch (error) {
         console.error('Error fetching all notes:', error)
+      }
+    },
+    async likeNoteById(noteId: string, username: string) {
+      const authStore = useAuthStore()
+      const note = findNoteById(noteId, this.userNotes)
+      const key = findNoteKeyById(noteId, this.userNotes)
+      if (!note || !key) return console.error('Note not found')
+      try {
+        if (note.likedBy?.includes(username)) {
+          this.userNotes[key].likedBy = this.userNotes[key].likedBy?.filter(
+            (user) => user !== username
+          )
+          // Update the note in the database
+          await updateDoc(
+            doc(db, 'users', authStore.userUID, 'userNotes', key),
+            this.userNotes[key]
+          )
+        } else {
+          this.userNotes[key].likedBy?.push(username)
+          // Update the note in the database
+          await updateDoc(
+            doc(db, 'users', authStore.userUID, 'userNotes', key),
+            this.userNotes[key]
+          )
+        }
+      } catch (error) {
+        console.error('Error adding like to note:', error)
       }
     }
   }

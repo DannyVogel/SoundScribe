@@ -3,6 +3,14 @@ import { ref } from 'vue'
 import { ShareIcon, ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
 import { PropType } from 'vue'
 import { Note } from '@/types'
+import useAuthStore from '@/stores/authStore'
+import useNotesStore from '@/stores/notesStore'
+import { useToast, TYPE } from 'vue-toastification'
+
+const toast = useToast()
+
+const authStore = useAuthStore()
+const notesStore = useNotesStore()
 
 defineEmits(['newer', 'older'])
 const props = defineProps({
@@ -28,13 +36,23 @@ const copyToClipboard = () => {
   const url = window.location.href.split('/').slice(0, -1).join('/')
   const noteUrl = `${url}/${props.note.id}`
   navigator.clipboard.writeText(noteUrl)
+  toast(`Link copied!`, {
+    type: TYPE.SUCCESS
+  })
   setTimeout(() => {
     isCopied.value = false
   }, 1500)
 }
 
 const likeNote = () => {
+  if (!authStore.isLoggedIn) {
+    toast(`You must be logged in to give out 🎶!`, {
+      type: TYPE.WARNING
+    })
+    return
+  }
   isLiked.value = true
+  notesStore.likeNoteById(props.note.id, authStore.userName)
   setTimeout(() => {
     isLiked.value = false
   }, 1500)
