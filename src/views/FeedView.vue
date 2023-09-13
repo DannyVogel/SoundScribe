@@ -62,11 +62,11 @@ function getTimeAgo(timestamp) {
     <p class="font-title text-2xl">Loading...</p>
     <div class="w-8 h-8 border-2 border-t-2 border-gray-200 rounded-full animate-spin"></div>
   </div>
-  <div v-else class="text-white mx-1">
+  <div v-else class="text-white mt-1">
     <div v-for="note in notes" :key="note.id">
       <RouterLink
         :to="`/soundboard/${note.author}/${note.id}`"
-        class="my-4 bg-gray-900 rounded-lg p-2 flex gap-2 sm:gap-3 shadow-lg hover:ring hover:ring-orange-600"
+        class="bg-gray-900 rounded-lg p-2 py-4 flex gap-2 sm:gap-3 shadow-lg border-b-2 border-orange-600"
       >
         <img
           class="my-auto w-32 h-16 object-cover rounded-full ring ring-orange-600"
