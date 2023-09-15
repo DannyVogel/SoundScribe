@@ -39,14 +39,6 @@ async function processSignUpFormData() {
     return
   }
 
-  if (!passwordRegex.test(form.value.password)) {
-    errorMessage.value =
-      'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-    btnMessage.value = 'Create Account'
-    isSigningUp.value = false
-    return
-  }
-
   const res = await authStore.signUp(form.value)
   if (res === 'success') {
     toast(`Welcome ${form.value.userName}!`, {
