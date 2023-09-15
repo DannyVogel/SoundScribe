@@ -93,6 +93,7 @@ const useNotesStore = defineStore('notes', {
       const authStore = useAuthStore()
       const note = findNoteById(noteId, this.userNotes)
       const key = findNoteKeyById(noteId, this.userNotes)
+      const UID = await authStore.searchUser(note!.author)
       if (!note || !key) return console.error('Note not found')
       try {
         if (note.likedBy?.includes(username)) {
@@ -100,17 +101,11 @@ const useNotesStore = defineStore('notes', {
             (user) => user !== username
           )
           // Update the note in the database
-          await updateDoc(
-            doc(db, 'users', authStore.userUID, 'userNotes', key),
-            this.userNotes[key]
-          )
+          await updateDoc(doc(db, 'users', UID!, 'userNotes', key), this.userNotes[key])
         } else {
           this.userNotes[key].likedBy?.push(username)
           // Update the note in the database
-          await updateDoc(
-            doc(db, 'users', authStore.userUID, 'userNotes', key),
-            this.userNotes[key]
-          )
+          await updateDoc(doc(db, 'users', UID!, 'userNotes', key), this.userNotes[key])
         }
       } catch (error) {
         console.error('Error adding like to note:', error)
