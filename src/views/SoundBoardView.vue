@@ -114,7 +114,7 @@ const getOlderPost = () => {
                 .toDate()
                 .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
             }}
-            - {{ authStore.userName }}
+            - {{ notes[currentNote].author }}
           </p>
         </div>
         <div class="ml-auto text-sm text-gray-400 flex gap-2">
