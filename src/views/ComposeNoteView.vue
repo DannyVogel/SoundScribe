@@ -84,6 +84,8 @@ const uploadNote = async () => {
         class="w-full max-w-sm sm:max-w-xl px-3 flex flex-col justify-center gap-2.5 border"
       >
         <legend>Your Note</legend>
+        <label htmlFor="songURL">Song Link:</label>
+        <input v-model="note.songURL" type="text" name="songURL" id="songURL" class="text-black" />
         <label htmlFor="noteTitle">Title:</label>
         <input
           v-model="note.title"
@@ -102,8 +104,6 @@ const uploadNote = async () => {
             class="text-white w-full"
           />
         </div>
-        <label htmlFor="songURL">Song Link:</label>
-        <input v-model="note.songURL" type="text" name="songURL" id="songURL" class="text-black" />
         <p class="text-red-500 text-xs">
           {{ errorMessage }}
         </p>
