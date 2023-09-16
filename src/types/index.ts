@@ -6,11 +6,17 @@ export interface Note {
   content: string
   songURL: string
   likedBy: string[]
-  comments?: object[]
+  comments: Comment[]
   [key: string]: any
 }
 
 interface Timestamp {
   seconds: number
   nanoseconds: number
+}
+
+export interface Comment {
+  author: string
+  comment: string
+  postedAt: Date
 }
