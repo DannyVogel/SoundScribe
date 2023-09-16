@@ -67,7 +67,6 @@ const getNotes = async () => {
     return
   }
 }
-console.log('here', notes.value[currentNote.value])
 
 const getNewerPost = () => {
   if (currentNote.value > 0) {
