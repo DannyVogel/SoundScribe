@@ -12,7 +12,7 @@ import {
   serverTimestamp
 } from '@/services/Firebase'
 import { getYouTubeEmbedUrl, findNoteById, findNoteKeyById } from '@/utils'
-import { Note } from '@/types'
+import { Note, Comment } from '@/types'
 import useAuthStore from '@/stores/authStore'
 
 const useNotesStore = defineStore('notes', {
@@ -109,6 +109,20 @@ const useNotesStore = defineStore('notes', {
         }
       } catch (error) {
         console.error('Error adding like to note:', error)
+      }
+    },
+    async addComment(noteId: string, comment: Comment) {
+      const authStore = useAuthStore()
+      const note = findNoteById(noteId, this.userNotes)
+      const key = findNoteKeyById(noteId, this.userNotes)
+      const UID = await authStore.searchUser(note!.author)
+      if (!note || !key) return console.error('Note not found')
+      try {
+        this.userNotes[key].comments?.push(comment)
+        // Update the note in the database
+        await updateDoc(doc(db, 'users', UID!, 'userNotes', key), this.userNotes[key])
+      } catch (error) {
+        console.error('Error adding comment to note:', error)
       }
     }
   }
