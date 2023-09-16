@@ -1,6 +1,6 @@
 import { Note } from '@/types'
 
-export const getYouTubeEmbedUrl = (url) => {
+export const getYouTubeEmbedUrl = (url: string) => {
   const youtubeUrlRegex =
     /^(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:watch\?(?=.*v=(\w+))(?:\S+)?|embed\/(\w+)|v\/(\w+)|user\/\w+)?|youtu\.be\/(\w+))$/
   const match = url.match(youtubeUrlRegex)
@@ -45,4 +45,32 @@ export const findNoteKeyById = (
     }
   }
   return undefined
+}
+
+export function getTimeAgo(date: Date) {
+  // check if timestamp or date object
+  if (!(date instanceof Date)) {
+    date = date.toDate()
+  }
+  const currentDate = new Date()
+  const timeDifference = currentDate.getTime() - date.getTime()
+
+  // Calculate the time difference in seconds, minutes, hours, days, and years
+  const seconds = Math.floor(timeDifference / 1000)
+  const minutes = Math.floor(seconds / 60)
+  const hours = Math.floor(minutes / 60)
+  const days = Math.floor(hours / 24)
+  const years = Math.floor(days / 365)
+
+  if (years > 0) {
+    return years === 1 ? '1 year ago' : `${years} years ago`
+  } else if (days > 0) {
+    return days === 1 ? '1 day ago' : `${days} days ago`
+  } else if (hours > 0) {
+    return hours === 1 ? '1 hour ago' : `${hours} hours ago`
+  } else if (minutes > 0) {
+    return minutes === 1 ? '1 min ago' : `${minutes} mins ago`
+  } else {
+    return seconds === 1 ? '1 sec ago' : `${seconds} secs ago`
+  }
 }
