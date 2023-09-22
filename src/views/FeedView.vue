@@ -70,7 +70,7 @@ function getTimeAgo(timestamp) {
         class="bg-gray-900 rounded-lg p-2 py-4 mb-1 flex gap-2 sm:gap-3 shadow-lg border-b-2 border-orange-600"
       >
         <img
-          class="my-auto w-32 h-16 object-cover rounded-full"
+          class="my-auto w-32 h-16 object-cover rounded-full shrink-0"
           :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
         />
         <div class="grow flex flex-col justify-center gap-2">
