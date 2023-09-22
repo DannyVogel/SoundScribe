@@ -2,6 +2,7 @@
 import { ref, watch, PropType } from 'vue'
 import { getTimeAgo } from '@/utils'
 import { Note, Comment } from '@/types'
+import { useToast, TYPE } from 'vue-toastification'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 
@@ -15,15 +16,24 @@ const props = defineProps({
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
+const toast = useToast()
 
 const comment = ref('')
 
 const addComment = () => {
-  if (!comment.value) return
+  if (comment.value == '') {
+    toast(`You can't post an empty comment!`, {
+      type: TYPE.WARNING
+    })
+    return
+  }
   notesStore.addComment(props.note.id, {
     author: authStore.userName,
     comment: comment.value,
     postedAt: new Date()
+  })
+  toast(`Comment posted!`, {
+    type: TYPE.SUCCESS
   })
   comment.value = ''
 }
