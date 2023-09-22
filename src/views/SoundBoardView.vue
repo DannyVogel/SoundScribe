@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { Note } from '@/types'
 import { uuidv4Regex } from '@/utils'
+import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
 import ActionBar from '@/common/ActionBar.vue'
 import SearchScribe from '@/common/SearchScribe.vue'
 import useAuthStore from '@/stores/authStore'
@@ -116,9 +117,15 @@ const getOlderPost = () => {
             - {{ notes[currentNote].author }}
           </p>
         </div>
-        <div class="ml-auto text-sm text-gray-400 flex gap-2">
-          {{ notes[currentNote].likedBy?.length }}
-          <img src="@/assets/icons/musical-note.png" class="w-5" />
+        <div class="ml-auto flex gap-2">
+          <div class="text-sm text-gray-400 flex gap-2">
+            {{ notes[currentNote].comments.length }}
+            <ChatBubbleLeftRightIcon class="w-5" />
+          </div>
+          <div class="text-sm text-gray-400 flex gap-2">
+            {{ notes[currentNote].likedBy?.length }}
+            <img src="@/assets/icons/musical-note.png" class="w-5" />
+          </div>
         </div>
       </div>
       <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>

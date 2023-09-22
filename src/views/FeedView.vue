@@ -2,10 +2,11 @@
 // TODO: This file is where notes from all users will show, not like its setup now
 
 import { ref, onMounted, watchEffect } from 'vue'
-import useAuthStore from '@/stores/authStore'
-import { Note } from '@/types'
-import useNotesStore from '@/stores/notesStore'
 import { youtubeUrlRegex } from '@/utils'
+import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
+import { Note } from '@/types'
+import useAuthStore from '@/stores/authStore'
+import useNotesStore from '@/stores/notesStore'
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
@@ -80,6 +81,10 @@ function getTimeAgo(timestamp) {
               {{ getTimeAgo(note.timeStamp) }}
             </p>
             <div class="ml-auto text-sm text-gray-400 flex gap-2">
+              <div class="text-sm text-gray-400 flex gap-2">
+                <ChatBubbleLeftRightIcon class="w-5" />
+                {{ note.comments.length }}
+              </div>
               <img src="@/assets/icons/musical-note.png" class="w-5" /> {{ note.likedBy?.length }}
             </div>
           </div>
