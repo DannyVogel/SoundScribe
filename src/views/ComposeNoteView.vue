@@ -41,9 +41,9 @@ const uploadNote = async () => {
     return
   }
 
-  if (note.value.title.length > 25) {
+  if (note.value.title.length > 30) {
     isUploading.value = false
-    errorMessage.value = 'Please enter a title that is less than 25 characters.'
+    errorMessage.value = 'Please enter a title that is less than 30 characters.'
     return
   }
 
