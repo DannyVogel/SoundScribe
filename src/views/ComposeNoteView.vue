@@ -1,13 +1,15 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import useAuthStore from '@/stores/authStore'
-import useNotesStore from '@/stores/notesStore'
 import { useRouter } from 'vue-router'
 import { youtubeUrlRegex } from '@/utils'
+import { useToast, TYPE } from 'vue-toastification'
+import useAuthStore from '@/stores/authStore'
+import useNotesStore from '@/stores/notesStore'
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
 const router = useRouter()
+const toast = useToast()
 const isUploading = ref(false)
 const errorMessage = ref('')
 const note = ref({
@@ -66,6 +68,9 @@ const uploadNote = async () => {
     authStore.userUID
   )
   if (res === 'success') {
+    toast(`Note composed!`, {
+      type: TYPE.SUCCESS
+    })
     router.push(`/soundboard/${authStore.userName}`)
   } else {
     errorMessage.value = 'Something went wrong. Please try again.'
