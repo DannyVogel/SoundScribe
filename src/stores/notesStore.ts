@@ -36,8 +36,8 @@ const useNotesStore = defineStore('notes', {
       content: string,
       songURL: string,
       userUID: string,
-      likedBy: string[],
-      comments: object[]
+      likedBy?: string[],
+      comments?: object[]
     ) {
       const id = uuidv4()
       const docData = {
