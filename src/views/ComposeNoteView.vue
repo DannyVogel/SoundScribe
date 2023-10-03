@@ -84,6 +84,7 @@ const uploadNote = async () => {
     <form
       @submit.prevent="uploadNote"
       class="w-full mt-4 sm:max-w-2xl flex flex-col justify-center"
+      id="compose-note-form"
     >
       <fieldset
         class="w-full max-w-sm sm:max-w-xl px-3 flex flex-col justify-center gap-2.5 border"

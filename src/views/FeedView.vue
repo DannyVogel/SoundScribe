@@ -72,6 +72,7 @@ function getTimeAgo(timestamp) {
         <img
           class="my-auto w-32 h-16 object-cover rounded-full shrink-0"
           :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
+          alt="video thumbnail"
         />
         <div class="grow flex flex-col justify-center gap-2">
           <p class="underline text-xs sm:text-sm">{{ note.author }}</p>
@@ -85,7 +86,8 @@ function getTimeAgo(timestamp) {
                 <ChatBubbleLeftRightIcon class="w-5" />
                 {{ note.comments.length }}
               </div>
-              <img src="@/assets/icons/musical-note.png" class="w-5" /> {{ note.likedBy?.length }}
+              <img src="@/assets/icons/musical-note.png" class="w-5" alt="musical note icon" />
+              {{ note.likedBy?.length }}
             </div>
           </div>
         </div>

@@ -35,12 +35,13 @@ const searchUser = async () => {
   </div>
   <div v-else class="w-full flex flex-col items-center gap-4">
     <h1 class="text-xl text-white">Search for a scribe</h1>
-    <form @submit.prevent="searchUser" class="w-full text-black">
+    <form @submit.prevent="searchUser" class="w-full text-black" id="user-search-form">
       <input
         v-model="searchInput"
         type="text"
         class="w-full h-8 py-5 rounded px-2"
         placeholder="Enter Scribe's username"
+        id="user-search-input"
       />
     </form>
     <p class="text-red-500">{{ errorMessage }}</p>

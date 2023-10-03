@@ -91,6 +91,7 @@ const olderNote = () => {
             src="@/assets/icons/musical-note.png"
             class="w-6"
             :class="isLiked && 'scale-105 animate-bounce'"
+            alt="musical note icon"
           />
         </div>
         <ChatBubbleLeftRightIcon

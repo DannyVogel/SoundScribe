@@ -64,7 +64,11 @@ async function processSignUpFormData() {
 <template>
   <div class="bg-gray-800 p-3 sm:pt-20 h-full overflow-scroll text-white">
     <h1 class="text-center text-3xl font-bold">Join SoundScribe</h1>
-    <form @submit.prevent="processSignUpFormData" class="mt-4 sm:max-w-lg sm:mx-auto">
+    <form
+      @submit.prevent="processSignUpFormData"
+      class="mt-4 sm:max-w-lg sm:mx-auto"
+      id="sign-up-form"
+    >
       <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
         <legend>Sign Up</legend>
         <div class="sm:mx-auto sm:w-80 flex flex-col justify-center gap-2.5">
@@ -100,8 +104,20 @@ async function processSignUpFormData() {
           class="w-[190px] p-2 text-center flex items-center justify-around mx-auto my-0 border"
         >
           <legend>Sounder or Scribe?</legend>
-          <input v-model="form.accountType" type="radio" value="Sounder" required />
-          <input v-model="form.accountType" type="radio" value="Scribe" required />
+          <input
+            v-model="form.accountType"
+            type="radio"
+            value="Sounder"
+            required
+            id="account-type-sounder"
+          />
+          <input
+            v-model="form.accountType"
+            type="radio"
+            value="Scribe"
+            required
+            id="account-type-scribe"
+          />
         </fieldset>
         <div class="grid grid-cols-2 gap-4">
           <div class="h-60 flex flex-col items-center flex-1">
@@ -115,8 +131,12 @@ async function processSignUpFormData() {
             </div>
             <p class="text-center">
               Enjoy the sounds posted by Scribes, hand out likes
-              <img src="@/assets/icons/musical-note.png" class="w-5 inline" /> and leave comments.
-              You can always upgrade to Scribe at any time.
+              <img
+                src="@/assets/icons/musical-note.png"
+                class="w-5 inline"
+                alt="musical note icon"
+              />
+              and leave comments. You can always upgrade to Scribe at any time.
             </p>
           </div>
           <div class="h-60 flex flex-col items-center flex-1">
@@ -132,7 +152,12 @@ async function processSignUpFormData() {
             </div>
             <p class="text-center">
               Create notes, leaving your thoughts and favorite sounds in a note. Comment on and like
-              <img src="@/assets/icons/musical-note.png" class="w-5 inline" /> other Scribe's notes.
+              <img
+                src="@/assets/icons/musical-note.png"
+                class="w-5 inline"
+                alt="musical note icon"
+              />
+              other Scribe's notes.
             </p>
           </div>
         </div>

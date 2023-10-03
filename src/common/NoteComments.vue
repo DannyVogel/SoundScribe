@@ -64,13 +64,14 @@ const addComment = () => {
         </div>
       </template>
     </div>
-    <form @submit.prevent="addComment" class="w-full flex justify-center">
+    <form @submit.prevent="addComment" class="w-full flex justify-center" id="add-comment-form">
       <input
         v-model="comment"
         type="text"
         class="w-11/12 rounded px-2 border border-orange-500"
         :class="note.comments.length > 0 ? '' : 'mt-1'"
         placeholder="Leave a comment..."
+        id="add-comment-input"
       />
     </form>
   </div>
