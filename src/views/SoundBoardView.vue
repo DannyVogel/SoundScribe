@@ -106,8 +106,10 @@ const getOlderPost = () => {
         allowfullscreen
       ></iframe>
       <div class="px-3 flex items-end">
-        <div class="">
-          <h1 class="font-title text-white text-2xl">{{ notes[currentNote].title }}</h1>
+        <div class="flex flex-col flex-nowrap overflow-hidden">
+          <h1 class="font-title text-white text-2xl truncate">
+            {{ notes[currentNote].title }}
+          </h1>
           <p class="text-sm text-gray-400">
             {{
               notes[currentNote].timeStamp
@@ -124,7 +126,7 @@ const getOlderPost = () => {
           </div>
           <div class="text-sm text-gray-400 flex gap-2">
             {{ notes[currentNote].likedBy?.length }}
-            <img src="@/assets/icons/musical-note.png" class="w-5" />
+            <img src="@/assets/icons/musical-note.png" class="w-5" alt="musical note icon" />
           </div>
         </div>
       </div>
