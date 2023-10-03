@@ -1,6 +1,18 @@
 # SoundScribe
 
-This template should help get you started developing with Vue 3 in Vite.
+<em>SoundScribe</em>, where music meets storytelling. 
+
+A social media app where users can sign up to be come Scribes, posting blog-style notes that must include a music video, or a Sounder, to simply browse the notes left by Scribes, leaving likes and comments.
+
+## Client Stack
+- Language: TypeScript
+- Framework: Vue3
+- State Management: Pinia
+- Style: TailwindCSS
+- Authentication: Firebase Authentication
+- Database: Firebase Firestore
+- Build tool: Vite
+- Lint, Prettier, Babel
 
 ## Recommended IDE Setup
 
