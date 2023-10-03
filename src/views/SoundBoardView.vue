@@ -95,50 +95,52 @@ const getOlderPost = () => {
     <div v-else-if="!currentScribe" class="max-h-full h-full w-full max-w-xs mx-auto py-8">
       <SearchScribe />
     </div>
-    <div
-      v-else-if="notes.length > 0"
-      class="w-full max-h-full h-full grid grid-rows-soundBoard md:grid-rows-soundBoardLg gap-3 mt-2"
-    >
-      <iframe
-        class="w-full h-full"
-        :src="notes[currentNote].songURL"
-        title="YouTube video player"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowfullscreen
-      ></iframe>
-      <div class="px-3 flex items-end">
-        <div class="flex flex-col flex-nowrap overflow-hidden">
-          <h1 class="font-title text-white text-2xl truncate">
-            {{ notes[currentNote].title }}
-          </h1>
-          <p class="text-sm text-gray-400">
-            {{
-              notes[currentNote].timeStamp
-                .toDate()
-                .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-            }}
-            - {{ notes[currentNote].author }}
-          </p>
-        </div>
-        <div class="ml-auto flex flex-col gap-2">
-          <div class="text-sm text-gray-400 flex gap-2">
-            <ChatBubbleLeftRightIcon class="w-5" @click="showComments = !showComments" />
-            {{ notes[currentNote].comments.length }}
+    <Transition v-else-if="notes.length > 0">
+      <div
+        class="w-full max-h-full h-full grid grid-rows-soundBoard md:grid-rows-soundBoardLg gap-3 mt-2"
+        :key="notes[currentNote].id"
+      >
+        <iframe
+          class="w-full h-full"
+          :src="notes[currentNote].songURL"
+          title="YouTube video player"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+        ></iframe>
+        <div class="px-3 flex items-end">
+          <div class="flex flex-col flex-nowrap overflow-hidden">
+            <h1 class="font-title text-white text-2xl truncate">
+              {{ notes[currentNote].title }}
+            </h1>
+            <p class="text-sm text-gray-400">
+              {{
+                notes[currentNote].timeStamp
+                  .toDate()
+                  .toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+              }}
+              - {{ notes[currentNote].author }}
+            </p>
           </div>
-          <div class="text-sm text-gray-400 flex gap-2">
-            <img
-              @click="isLiked = !isLiked"
-              src="@/assets/icons/musical-note.png"
-              class="w-5"
-              alt="musical note icon"
-            />
-            {{ notes[currentNote].likedBy?.length }}
+          <div class="ml-auto flex flex-col gap-2">
+            <div class="text-sm text-gray-400 flex gap-2">
+              <ChatBubbleLeftRightIcon class="w-5" @click="showComments = !showComments" />
+              {{ notes[currentNote].comments.length }}
+            </div>
+            <div class="text-sm text-gray-400 flex gap-2">
+              <img
+                @click="isLiked = !isLiked"
+                src="@/assets/icons/musical-note.png"
+                class="w-5"
+                alt="musical note icon"
+              />
+              {{ notes[currentNote].likedBy?.length }}
+            </div>
           </div>
         </div>
+        <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>
       </div>
-      <p v-html="notes[currentNote].content" class="px-3 pb-24 overflow-y-scroll"></p>
-    </div>
+    </Transition>
     <div v-else>
       <h1 class="mt-8 text-center font-title text-2xl">
         {{ currentScribe }} has not composed any notes yet
@@ -168,3 +170,15 @@ const getOlderPost = () => {
     @older="getOlderPost"
   />
 </template>
+
+<style scoped>
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+</style>
