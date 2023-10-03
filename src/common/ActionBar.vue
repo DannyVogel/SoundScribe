@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, computed, toRef, watchEffect, watch } from 'vue'
 import { ShareIcon, ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
 import { PropType } from 'vue'
 import { Note } from '@/types'
@@ -26,12 +26,26 @@ const props = defineProps({
   note: {
     type: Object as PropType<Note>,
     required: true
+  },
+  showComments: {
+    type: Boolean,
+    required: false,
+    default: false
+  },
+  isLiked: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
 
 const isCopied = ref(false)
 const isLiked = ref(false)
 const showComments = ref(false)
+
+watchEffect(() => {
+  showComments.value = props.showComments
+})
 
 const copyToClipboard = () => {
   isCopied.value = true
@@ -59,6 +73,8 @@ const likeNote = () => {
     isLiked.value = false
   }, 1500)
 }
+
+watch(toRef(props, 'isLiked'), likeNote)
 
 const newerNote = () => {
   showComments.value = false

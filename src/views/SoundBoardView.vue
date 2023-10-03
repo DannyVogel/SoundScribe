@@ -17,6 +17,8 @@ const isLoading = ref(false)
 const currentScribe = ref()
 const notes = ref<Note[]>([])
 const currentNote = ref(0)
+const showComments = ref(false)
+const isLiked = ref(false)
 
 // Fetch user notes when the component is mounted
 onMounted(async () => {
@@ -80,56 +82,9 @@ const getOlderPost = () => {
     currentNote.value++
   }
 }
-
-const touchStartX = ref(0)
-const touchStartY = ref(0)
-const swipePerformed = ref(false)
-
-const handleTouchStart = (event) => {
-  touchStartX.value = event.touches[0].clientX
-  touchStartY.value = event.touches[0].clientY
-}
-
-const handleTouchMove = (event) => {
-  if (swipePerformed.value) {
-    return
-  }
-  const touchEndX = event.touches[0].clientX
-  const touchEndY = event.touches[0].clientY
-  const deltaX = touchEndX - touchStartX.value
-  const deltaY = touchEndY - touchStartY.value
-
-  if (Math.abs(deltaX) > Math.abs(deltaY)) {
-    // Horizontal swipe
-    if (deltaX > 0) {
-      // Swipe from left to right
-      getNewerPost()
-    } else {
-      // Swipe from right to left
-      getOlderPost()
-    }
-  } else {
-    // Vertical swipe
-    if (deltaY > 0) {
-      // Swipe from top to bottom
-      getNewerPost()
-    } else {
-      // Swipe from bottom to top
-      getOlderPost()
-    }
-  }
-  swipePerformed.value = true
-  setTimeout(() => {
-    swipePerformed.value = false
-  }, 1000)
-}
 </script>
 <template>
-  <div
-    class="w-full max-h-full h-full text-white overflow-y-hidden"
-    @touchstart="handleTouchStart"
-    @touchmove="handleTouchMove"
-  >
+  <div class="w-full max-h-full h-full text-white overflow-y-hidden">
     <div
       v-if="isLoading"
       class="max-h-full h-full text-white flex flex-col justify-center items-center gap-4"
@@ -166,14 +121,19 @@ const handleTouchMove = (event) => {
             - {{ notes[currentNote].author }}
           </p>
         </div>
-        <div class="ml-auto flex gap-2">
+        <div class="ml-auto flex flex-col gap-2">
           <div class="text-sm text-gray-400 flex gap-2">
+            <ChatBubbleLeftRightIcon class="w-5" @click="showComments = !showComments" />
             {{ notes[currentNote].comments.length }}
-            <ChatBubbleLeftRightIcon class="w-5" />
           </div>
           <div class="text-sm text-gray-400 flex gap-2">
+            <img
+              @click="isLiked = !isLiked"
+              src="@/assets/icons/musical-note.png"
+              class="w-5"
+              alt="musical note icon"
+            />
             {{ notes[currentNote].likedBy?.length }}
-            <img src="@/assets/icons/musical-note.png" class="w-5" alt="musical note icon" />
           </div>
         </div>
       </div>
@@ -202,6 +162,8 @@ const handleTouchMove = (event) => {
     :is-newest-note="currentNote === 0"
     :is-oldest-note="currentNote === notes.length - 1"
     :note="notes[currentNote]"
+    :show-comments="showComments"
+    :is-liked="isLiked"
     @newer="getNewerPost"
     @older="getOlderPost"
   />
