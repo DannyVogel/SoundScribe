@@ -4,12 +4,14 @@ import { useRouter } from 'vue-router'
 import useAuthStore from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
 import { usernameRegex, passwordRegex, emailRegex } from '@/utils'
+import { EyeIcon, EyeSlashIcon } from '@heroicons/vue/20/solid'
 
 const authStore = useAuthStore()
 const router = useRouter()
 const toast = useToast()
 
 const isSigningUp = ref(false)
+const showPassword = ref(false)
 const errorMessage = ref('')
 const btnMessage = ref('')
 const form = ref({
@@ -69,13 +71,13 @@ async function processSignUpFormData() {
       class="mt-4 sm:max-w-lg sm:mx-auto"
       id="sign-up-form"
     >
-      <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border">
-        <legend>Sign Up</legend>
+      <fieldset class="w-full px-3 flex flex-col justify-center gap-2.5 border rounded">
+        <legend class="px-2">Sign Up</legend>
         <div class="sm:mx-auto sm:w-80 flex flex-col justify-center gap-2.5">
           <label htmlFor="userName">User Name:</label>
           <input
             v-model="form.userName"
-            class="text-black px-2 sm:max-w-sm"
+            class="w-full text-black px-2 py-2 sm:max-w-sm bg-white placeholder:text-gray-400 rounded-t border-0"
             type="text"
             name="userName"
             id="userName"
@@ -84,26 +86,44 @@ async function processSignUpFormData() {
           <label htmlFor="email">Email:</label>
           <input
             v-model="form.email"
-            class="text-black px-2 sm:max-w-sm"
+            class="w-full text-black px-2 py-2 sm:max-w-sm bg-white placeholder:text-gray-400 rounded-t border-0"
             type="email"
             name="email"
             id="email"
             required
           />
           <label htmlFor="password">Password:</label>
-          <input
-            v-model="form.password"
-            class="text-black px-2 sm:max-w-sm"
-            type="password"
-            name="password"
-            id="password"
-            required
-          />
+          <div class="relative mt-1">
+            <input
+              v-model="form.password"
+              class="w-full text-black px-2 py-2 sm:max-w-sm bg-white placeholder:text-gray-400 rounded-t border-0"
+              name="password"
+              id="password"
+              required
+              :type="showPassword ? 'text' : 'password'"
+              placeholder="Enter your password"
+              autocomplete="current-password"
+            />
+            <div
+              class="w-8 cursor-pointer absolute inset-y-0 right-0 flex items-center justify-center"
+            >
+              <EyeIcon
+                @click="showPassword = !showPassword"
+                class="w-4 text-orange-500"
+                v-if="showPassword"
+              />
+              <EyeSlashIcon
+                @click="showPassword = !showPassword"
+                class="w-4 text-orange-500"
+                v-else
+              />
+            </div>
+          </div>
         </div>
         <fieldset
-          class="w-[190px] p-2 text-center flex items-center justify-around mx-auto my-0 border"
+          class="w-[190px] p-2 text-center flex items-center justify-around mx-auto my-0 border rounded"
         >
-          <legend>Sounder or Scribe?</legend>
+          <legend class="px-2">Sounder or Scribe?</legend>
           <input
             v-model="form.accountType"
             type="radio"

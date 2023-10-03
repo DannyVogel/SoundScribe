@@ -6,12 +6,11 @@ import { useToast, TYPE } from 'vue-toastification'
 import { useRouter } from 'vue-router'
 import SearchScribe from '@/common/SearchScribe.vue'
 
-defineEmits(['close'])
+const emit = defineEmits(['close'])
 const authStore = useAuthStore()
 const router = useRouter()
 const toast = useToast()
 
-const isSideNavShown = ref(false)
 const isSigningIn = ref(false)
 const signingInMessage = ref('')
 const isLoggingOut = ref(false)
@@ -34,7 +33,7 @@ const processSignInFormData = async () => {
     })
     signingInMessage.value = 'Success!'
     setTimeout(() => {
-      isSideNavShown.value = false
+      emit('close')
       isSigningIn.value = false
     }, 1000)
     setTimeout(() => {
@@ -58,7 +57,7 @@ const logOut = async () => {
     })
     loggingOutMessage.value = ''
     isLoggingOut.value = false
-    isSideNavShown.value = false
+    emit('close')
     router.push('/')
   } else {
     loggingOutMessage.value = 'Error: Please try again'
