@@ -69,7 +69,12 @@ const logOut = async () => {
 
 <template>
   <div class="z-50">
-    <button @click="$emit('close')" class="h-12 flex justify-center">
+    <button
+      @click="$emit('close')"
+      class="h-12 flex justify-center"
+      title="close side menu button"
+      aria-label="close side menu button"
+    >
       <i class="fa-solid fa-bars text-white"></i>
     </button>
 
@@ -107,7 +112,7 @@ const logOut = async () => {
       </button>
     </div>
     <div v-else>
-      <form @submit.prevent="processSignInFormData">
+      <form @submit.prevent="processSignInFormData" id="sign-in-form">
         <fieldset
           class="w-full px-3 pb-3 flex flex-col justify-center items-start gap-2.5 text-white border border-white"
         >
@@ -154,10 +159,10 @@ const logOut = async () => {
     <footer class="mt-auto w-full h-6 flex justify-between items-center">
       <p class="text-white">&#169; 2023 SoundScribe</p>
       <div class="flex gap-4">
-        <a href="https://github.com/DannyVogel" target="_blank"
+        <a href="https://github.com/DannyVogel" target="_blank" title="github link"
           ><i class="fa-brands fa-github text-white hover:scale-150 cursor-pointer"></i
         ></a>
-        <a href="https://www.linkedin.com/in/danny-vogel/" target="_blank"
+        <a href="https://www.linkedin.com/in/danny-vogel/" target="_blank" title="linkedIn link"
           ><i class="fa-brands fa-linkedin-in text-white hover:scale-150 cursor-pointer"></i
         ></a>
       </div>
