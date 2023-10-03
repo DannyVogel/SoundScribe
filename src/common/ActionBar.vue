@@ -87,7 +87,7 @@ const olderNote = () => {
 </script>
 <template>
   <div
-    class="absolute bottom-6 left-1/2 -ml-[37.5%] md:ml-0 md:-translate-x-1/2 w-3/4 md:max-w-lg h-12 px-4 bg-white rounded-full flex items-center"
+    class="safari_only absolute bottom-6 left-1/2 -ml-[37.5%] md:ml-0 md:-translate-x-1/2 w-3/4 md:max-w-lg h-12 px-4 bg-white rounded-full flex items-center"
   >
     <div class="relative w-full grid grid-cols-actionBar md:grid-cols-actionBarMD">
       <NoteComments :note="note" v-if="showComments" @close="showComments = false" />
@@ -133,3 +133,13 @@ const olderNote = () => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@media screen and (max-width: 767px) {
+  _::-webkit-full-page-media,
+  _:future,
+  :root .safari_only {
+    margin-bottom: 65px;
+  }
+}
+</style>
