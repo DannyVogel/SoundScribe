@@ -6,6 +6,7 @@ import ComposeNoteView from '@/views/ComposeNoteView.vue'
 import SoundBoardView from '@/views/SoundBoardView.vue'
 import FeedView from '@/views/FeedView.vue'
 import DiscoverView from '@/views/DiscoverView.vue'
+import TermsOfServiceView from '@/views/TermsOfServiceView.vue'
 import useAuthStore from '@/stores/authStore'
 
 const requireAuth = (
@@ -54,6 +55,15 @@ const router = createRouter({
       path: '/discover',
       name: 'discover',
       component: DiscoverView
+    },
+    {
+      path: '/terms-of-service',
+      name: 'termsOfService',
+      component: TermsOfServiceView
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/'
     }
   ],
   linkActiveClass: 'text-orange-600'

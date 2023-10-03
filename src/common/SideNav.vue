@@ -156,15 +156,30 @@ const logOut = async () => {
       </div>
       <SearchScribe class="mt-6" @close="$emit('close')" />
     </div>
-    <footer class="mt-auto w-full h-6 flex justify-between items-center">
-      <p class="text-white">&#169; 2023 SoundScribe</p>
-      <div class="flex gap-4">
-        <a href="https://github.com/DannyVogel" target="_blank" title="github link"
-          ><i class="fa-brands fa-github text-white hover:scale-150 cursor-pointer"></i
-        ></a>
-        <a href="https://www.linkedin.com/in/danny-vogel/" target="_blank" title="linkedIn link"
-          ><i class="fa-brands fa-linkedin-in text-white hover:scale-150 cursor-pointer"></i
-        ></a>
+    <footer class="mt-auto w-full flex flex-col">
+      <RouterLink
+        :to="{ name: 'termsOfService' }"
+        class="text-white text-center hover:text-orange-600"
+        >Terms & Conditions</RouterLink
+      >
+      <div class="h-6 flex justify-between items-center">
+        <RouterLink
+          :to="{ name: 'home' }"
+          class="text-white hover:animate-pulse hover:text-orange-600"
+          >&#169; 2023 SoundScribe</RouterLink
+        >
+        <div class="flex gap-4">
+          <a href="https://github.com/DannyVogel" target="_blank" title="github link"
+            ><i
+              class="fa-brands fa-github text-white hover:scale-150 cursor-pointer hover:text-orange-600"
+            ></i
+          ></a>
+          <a href="https://www.linkedin.com/in/danny-vogel/" target="_blank" title="linkedIn link"
+            ><i
+              class="fa-brands fa-linkedin-in text-white hover:scale-150 cursor-pointer hover:text-orange-600"
+            ></i
+          ></a>
+        </div>
       </div>
     </footer>
   </div>
