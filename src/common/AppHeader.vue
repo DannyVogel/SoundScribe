@@ -22,7 +22,7 @@ const isSideNavShown = ref(false)
         SoundScribe
       </h1>
       <NavBar />
-      <div class="flex items-start">
+      <div class="flex items-start justify-end sm:w-[107px]">
         <button
           @click="isSideNavShown = true"
           class="w-8 h-8"
