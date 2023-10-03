@@ -1,7 +1,7 @@
 <script setup lang="ts"></script>
 <template>
-  <div class="py-12 text-white flex flex-col gap-2 max-w-4xl mx-auto">
-    <h3 class="text-4xl">SoundScribe Terms & Conditions</h3>
+  <div class="py-12 text-white flex flex-col gap-2 max-w-4xl mx-auto px-4">
+    <h3 class="text-3xl sm:text-4xl">Terms & Conditions</h3>
     <h3 class="font-bold text-lg">1. Acceptance of Terms:</h3>
     <p>
       By using the Platform, you agree to comply with and be bound by these Terms. If you do not
