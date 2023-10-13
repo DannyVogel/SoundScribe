@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { RouterLink } from 'vue-router'
-import useAuthStore from '@/stores/authStore'
 import { useToast, TYPE } from 'vue-toastification'
 import { useRouter } from 'vue-router'
+import { Bars3Icon } from '@heroicons/vue/24/solid'
 import SearchScribe from '@/common/SearchScribe.vue'
+import useAuthStore from '@/stores/authStore'
 
 const emit = defineEmits(['close'])
 const authStore = useAuthStore()
@@ -74,7 +75,7 @@ const logOut = async () => {
       title="close side menu button"
       aria-label="close side menu button"
     >
-      <i class="fa-solid fa-bars text-white"></i>
+      <Bars3Icon class="text-white w-8" />
     </button>
 
     <div v-if="authStore.isLoggedIn" class="h-full flex flex-col items-center gap-4">

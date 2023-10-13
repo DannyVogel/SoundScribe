@@ -38,7 +38,7 @@ const isSideNavShown = ref(false)
         ></div>
         <SideNav
           @close="isSideNavShown = false"
-          class="w-64 h-full p-3 fixed top-0 right-0 bg-gray-900 shadow-md shadow-gray-700 translate-x-0 transition-transform ease-in-out duration-300 flex flex-col justify-start"
+          class="w-64 lg:w-96 h-full p-3 fixed top-0 right-0 bg-gray-900 shadow-md shadow-gray-700 translate-x-0 transition-transform ease-in-out duration-300 flex flex-col justify-start"
           :class="!isSideNavShown && 'translate-x-full'"
         />
       </div>
