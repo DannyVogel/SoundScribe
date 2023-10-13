@@ -124,14 +124,17 @@ const getOlderPost = () => {
           </div>
           <div class="ml-auto flex flex-col gap-2">
             <div class="text-sm text-gray-400 flex gap-2">
-              <ChatBubbleLeftRightIcon class="w-5" @click="showComments = !showComments" />
+              <ChatBubbleLeftRightIcon
+                class="w-5 cursor-pointer"
+                @click="showComments = !showComments"
+              />
               {{ notes[currentNote].comments.length }}
             </div>
             <div class="text-sm text-gray-400 flex gap-2">
               <img
                 @click="isLiked = !isLiked"
                 src="@/assets/icons/musical-note.png"
-                class="w-5"
+                class="w-5 cursor-pointer"
                 alt="musical note icon"
               />
               {{ notes[currentNote].likedBy?.length }}
