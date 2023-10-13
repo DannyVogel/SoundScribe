@@ -33,6 +33,5 @@ const authStore = useAuthStore()
         >create an account</RouterLink
       >.
     </p>
-    <SearchScribe class="mt-4" />
   </main>
 </template>
