@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { youtubeUrlRegex } from '@/utils'
 import { useToast, TYPE } from 'vue-toastification'
+import YouTubeVideoId from 'youtube-video-id'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
 
@@ -17,17 +17,6 @@ const note = ref({
   content: '',
   songURL: ''
 })
-
-const getYoutubeVideoId = (url: string) => {
-  const match = url.match(youtubeUrlRegex)
-
-  if (match) {
-    const videoId = match[1] || match[2] || match[3] || match[4]
-    return 'https://www.youtube.com/watch?v=' + videoId
-  }
-
-  return null
-}
 
 if (!authStore.isLoggedIn) {
   router.push('/')
@@ -52,19 +41,18 @@ const uploadNote = async () => {
     errorMessage.value = 'Please enter some content.'
     return
   }
-  const youtubeURL = getYoutubeVideoId(note.value.songURL)
-  if (!youtubeURL) {
+  const youtubeID = YouTubeVideoId(note.value.songURL)
+  if (!youtubeID) {
     isUploading.value = false
     errorMessage.value =
       'Please enter a valid YouTube URL. (e.g. https://www.youtube.com/watch?v=dQw4w9WgXcQ)'
     return
   }
-  note.value.songURL = youtubeURL
   const res = await notesStore.uploadNote(
     authStore.userName,
     note.value.title,
     note.value.content,
-    note.value.songURL,
+    youtubeID,
     authStore.userUID
   )
   if (res === 'success') {

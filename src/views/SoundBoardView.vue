@@ -8,6 +8,8 @@ import ActionBar from '@/common/ActionBar.vue'
 import SearchScribe from '@/common/SearchScribe.vue'
 import useAuthStore from '@/stores/authStore'
 import useNotesStore from '@/stores/notesStore'
+import LiteYouTubeEmbed from 'vue-lite-youtube-embed'
+import 'vue-lite-youtube-embed/style.css'
 
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
@@ -20,7 +22,6 @@ const currentNote = ref(0)
 const showComments = ref(false)
 const isLiked = ref(false)
 
-// Fetch user notes when the component is mounted
 onMounted(async () => {
   isLoading.value = true
   await getNotes()
@@ -100,14 +101,8 @@ const getOlderPost = () => {
         class="w-full max-h-full h-full grid grid-rows-soundBoard md:grid-rows-soundBoardLg gap-3 mt-2"
         :key="notes[currentNote].id"
       >
-        <iframe
-          class="w-full h-full"
-          :src="notes[currentNote].songURL"
-          title="YouTube video player"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen
-        ></iframe>
+        <LiteYouTubeEmbed :id="notes[currentNote].songURL" title="YouTube video player" />
+
         <div class="px-3 flex items-end">
           <div class="flex flex-col flex-nowrap overflow-hidden">
             <h1 class="font-title text-white text-2xl truncate">

@@ -1,6 +1,4 @@
 <script setup lang="ts">
-// TODO: This file is where notes from all users will show, not like its setup now
-
 import { ref, onMounted, watchEffect } from 'vue'
 import { youtubeUrlRegex } from '@/utils'
 import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/solid'
@@ -11,7 +9,7 @@ import useNotesStore from '@/stores/notesStore'
 const authStore = useAuthStore()
 const notesStore = useNotesStore()
 const notes = ref(null as Note[] | null)
-// Fetch user notes when the component is mounted
+
 onMounted(async () => {
   await notesStore.getAllNotes()
 })
@@ -20,18 +18,7 @@ watchEffect(() => {
   notes.value = notesStore.getAllUsersNotesSortedByTimestamp
 })
 
-function getYoutubeVideoId(url: string) {
-  const match = url.match(youtubeUrlRegex)
-
-  if (match) {
-    const videoId = match[1] || match[2] || match[3] || match[4]
-    return videoId
-  }
-
-  return ''
-}
-
-function getTimeAgo(timestamp) {
+function getTimeAgo(timestamp: any) {
   const currentTime = new Date().getTime()
   const timeDifference = currentTime - timestamp.seconds * 1000
 
@@ -51,8 +38,7 @@ function getTimeAgo(timestamp) {
   }
 
   const date = new Date(timestamp.seconds * 1000)
-  const options = { month: 'short', day: 'numeric', year: 'numeric' }
-  return date.toLocaleDateString('en-US', options)
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 }
 </script>
 <template>
@@ -71,7 +57,7 @@ function getTimeAgo(timestamp) {
       >
         <img
           class="my-auto w-32 h-16 object-cover rounded-full shrink-0"
-          :src="`http://img.youtube.com/vi/${getYoutubeVideoId(note.songURL)}/0.jpg`"
+          :src="`http://img.youtube.com/vi/${note.songURL}/0.jpg`"
           alt="video thumbnail"
         />
         <div class="grow flex flex-col justify-center gap-2">

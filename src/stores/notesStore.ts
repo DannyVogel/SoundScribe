@@ -46,7 +46,7 @@ const useNotesStore = defineStore('notes', {
         timeStamp: serverTimestamp(),
         title: title,
         content: content,
-        songURL: getYouTubeEmbedUrl(songURL),
+        songURL: songURL,
         likedBy: [],
         comments: []
       }
