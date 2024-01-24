@@ -2,7 +2,7 @@
 
 <em>SoundScribe</em>, where music meets storytelling. 
 
-A social media app where users can sign up to be come Scribes, posting blog-style notes that must include a music video, or a Sounder, to simply browse the notes left by Scribes, leaving likes and comments.
+A social media app where users can sign up to become Scribes, posting blog-style notes that must include a music video, or a Sounder, to simply browse the notes left by Scribes, leaving likes and comments.
 
 ## Client Stack
 - Language: TypeScript
