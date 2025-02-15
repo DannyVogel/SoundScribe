@@ -28,12 +28,12 @@ import {
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyAqXwSFlgBDFNtD0CycrJz7ysRE-uIomMU',
-  authDomain: 'songscribe-c7837.firebaseapp.com',
-  projectId: 'songscribe-c7837',
-  storageBucket: 'songscribe-c7837.appspot.com',
-  messagingSenderId: '267830351415',
-  appId: '1:267830351415:web:865a4eaf6db2e246d5d1b2'
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID
 }
 
 // Initialize Firebase
